@@ -1,0 +1,808 @@
+{
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [
+      {
+        "name": "FORMAT",
+        "value": "1A"
+      },
+      {
+        "name": "HOST",
+        "value": "http://sample.pandurangpatil.com"
+      }
+    ],
+    "name": "Sample API Documentation",
+    "description": "Sample api documentation for sample project.\n\n# Allowed HTTPs requests:\n\n<pre>\nPUT     : To create resource \nPOST    : Update resource\nGET     : Get a resource or list of resources\nDELETE  : To delete resource\n</pre>\n\n# Description Of Usual Server Responses:\n\n- 200 `OK` - the request was successful (some API calls may return 201 instead).\n\n- 201 `Created` - the request was successful and a resource was created.\n\n- 204 `No Content` - the request was successful but there is no representation to return (i.e. the response is empty).\n\n- 400 `Bad Request` - the request could not be understood or was missing required parameters.\n\n- 401 `Unauthorized` - authentication failed or user doesn't have permissions for requested operation.\n\n- 403 `Forbidden` - access denied.\n\n- 404 `Not Found` - resource was not found.\n\n- 405 `Method Not Allowed` - requested method is not supported for resource.\n\n# Some sample\n\nTest sample                 |   test column two\n    First column sadf asdfads   |   sfsdsadf\n\n---\n\ntest one                    | Another column\n\n---\n\n# Table sample\n\n<table>\n    <tr>\n        <td> First Column </td>\n        <td> Second Column </td>    \n    </tr>\n    <tr>\n        <td> First Column </td>\n        <td> Second Column </td> \n    </tr>\n</table>\n\n# Code Sample\n\n<pre>\n    Some code here\n</pre>",
+    "element": "category",
+    "resourceGroups": [
+      {
+        "name": "User",
+        "description": "Represents user details.\n\n---\n\n**User attributes:**\n\n- id `(Number)` : unique identifier.\n\n- fname `(String)` : First Name.\n\n- lname `(String)` : Last Name.\n\n- email `(String)` : email id of the user.\n\n---",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "User Collection",
+            "description": "",
+            "uriTemplate": "/users(?since,limit)",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "List all users",
+                "description": "Retrieve paginated list of users.",
+                "method": "GET",
+                "parameters": [
+                  {
+                    "name": "since",
+                    "description": "Timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ` Only users updated at or after this time are returned.",
+                    "type": "String",
+                    "required": false,
+                    "default": "",
+                    "example": "",
+                    "values": []
+                  },
+                  {
+                    "name": "limit",
+                    "description": "maximum number of records expected by client.",
+                    "type": "Number",
+                    "required": false,
+                    "default": "",
+                    "example": "",
+                    "values": []
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "[\n    {\n        \"id\": 1,\n        \"fname\": \"Pandurang\",\n        \"lname\": \"Patil\",\n        \"email\": \"pandurang@email.com\"\n    },\n    {\n        \"id\": 2,\n        \"fname\": \"Sangram\",\n        \"lname\": \"Shinde\",\n        \"email\": \"sangram@email.com\"\n    }\n]\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "[\n    {\n        \"id\": 1,\n        \"fname\": \"Pandurang\",\n        \"lname\": \"Patil\",\n        \"email\": \"pandurang@email.com\"\n    },\n    {\n        \"id\": 2,\n        \"fname\": \"Sangram\",\n        \"lname\": \"Shinde\",\n        \"email\": \"sangram@email.com\"\n    }\n]\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "401",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"error.unauthorized\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"error.unauthorized\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Create a User",
+                "description": "",
+                "method": "PUT",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"fname\": \"Ram\",\n    \"lname\": \"Jadhav\",\n    \"email\": \"ram@email.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"fname\": \"Ram\",\n    \"lname\": \"Jadhav\",\n    \"email\": \"ram@email.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"id\": 3,\n    \"fname\": \"Ram\",\n    \"lname\": \"Jadhav\",\n    \"email\": \"ram@email.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"id\": 3,\n    \"fname\": \"Ram\",\n    \"lname\": \"Jadhav\",\n    \"email\": \"ram@email.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "User",
+            "description": "A single User object with all its details",
+            "uriTemplate": "/users/{id}",
+            "model": {},
+            "parameters": [
+              {
+                "name": "id",
+                "description": "Numeric `id` of the User to perform action with.",
+                "type": "Number",
+                "required": true,
+                "default": "",
+                "example": "1",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Retrieve a User",
+                "description": "",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-My-Header",
+                            "value": "The Value"
+                          }
+                        ],
+                        "body": "{\n    \"id\": 1,\n    \"fname\": \"Pandurang\",\n    \"lname\": \"Patil\",\n    \"email\": \"pandurang@email.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"id\": 1,\n    \"fname\": \"Pandurang\",\n    \"lname\": \"Patil\",\n    \"email\": \"pandurang@email.com\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "401",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"error.unauthorized\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"error.unauthorized\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Update a User",
+                "description": "Update user details",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"id\": 1,\n    \"fname\": \"Pandurang\",\n    \"lname\": \"Patil\",\n    \"email\": \"pandurangpatil@email.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"id\": 1,\n    \"fname\": \"Pandurang\",\n    \"lname\": \"Patil\",\n    \"email\": \"pandurangpatil@email.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"id\": 1,\n    \"fname\": \"Pandurang\",\n    \"lname\": \"Patil\",\n    \"email\": \"pandurangpatil@email.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"id\": 1,\n    \"fname\": \"Pandurang\",\n    \"lname\": \"Patil\",\n    \"email\": \"pandurangpatil@email.com\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "401",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"error.unauthorized\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"error.unauthorized\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Remove a User",
+                "description": "",
+                "method": "DELETE",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      },
+                      {
+                        "name": "401",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"error.unauthorized\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"error.unauthorized\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ],
+    "content": [
+      {
+        "element": "category",
+        "attributes": {
+          "name": "User"
+        },
+        "content": [
+          {
+            "element": "copy",
+            "content": "Represents user details.\n\n---\n\n**User attributes:**\n\n- id `(Number)` : unique identifier.\n\n- fname `(String)` : First Name.\n\n- lname `(String)` : Last Name.\n\n- email `(String)` : email id of the user.\n\n---"
+          },
+          {
+            "element": "resource",
+            "name": "User Collection",
+            "description": "",
+            "uriTemplate": "/users(?since,limit)",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "List all users",
+                "description": "Retrieve paginated list of users.",
+                "method": "GET",
+                "parameters": [
+                  {
+                    "name": "since",
+                    "description": "Timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ` Only users updated at or after this time are returned.",
+                    "type": "String",
+                    "required": false,
+                    "default": "",
+                    "example": "",
+                    "values": []
+                  },
+                  {
+                    "name": "limit",
+                    "description": "maximum number of records expected by client.",
+                    "type": "Number",
+                    "required": false,
+                    "default": "",
+                    "example": "",
+                    "values": []
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "[\n    {\n        \"id\": 1,\n        \"fname\": \"Pandurang\",\n        \"lname\": \"Patil\",\n        \"email\": \"pandurang@email.com\"\n    },\n    {\n        \"id\": 2,\n        \"fname\": \"Sangram\",\n        \"lname\": \"Shinde\",\n        \"email\": \"sangram@email.com\"\n    }\n]\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "[\n    {\n        \"id\": 1,\n        \"fname\": \"Pandurang\",\n        \"lname\": \"Patil\",\n        \"email\": \"pandurang@email.com\"\n    },\n    {\n        \"id\": 2,\n        \"fname\": \"Sangram\",\n        \"lname\": \"Shinde\",\n        \"email\": \"sangram@email.com\"\n    }\n]\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "401",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"error.unauthorized\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"error.unauthorized\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Create a User",
+                "description": "",
+                "method": "PUT",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"fname\": \"Ram\",\n    \"lname\": \"Jadhav\",\n    \"email\": \"ram@email.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"fname\": \"Ram\",\n    \"lname\": \"Jadhav\",\n    \"email\": \"ram@email.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"id\": 3,\n    \"fname\": \"Ram\",\n    \"lname\": \"Jadhav\",\n    \"email\": \"ram@email.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"id\": 3,\n    \"fname\": \"Ram\",\n    \"lname\": \"Jadhav\",\n    \"email\": \"ram@email.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "User",
+            "description": "A single User object with all its details",
+            "uriTemplate": "/users/{id}",
+            "model": {},
+            "parameters": [
+              {
+                "name": "id",
+                "description": "Numeric `id` of the User to perform action with.",
+                "type": "Number",
+                "required": true,
+                "default": "",
+                "example": "1",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Retrieve a User",
+                "description": "",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "X-My-Header",
+                            "value": "The Value"
+                          }
+                        ],
+                        "body": "{\n    \"id\": 1,\n    \"fname\": \"Pandurang\",\n    \"lname\": \"Patil\",\n    \"email\": \"pandurang@email.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"id\": 1,\n    \"fname\": \"Pandurang\",\n    \"lname\": \"Patil\",\n    \"email\": \"pandurang@email.com\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "401",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"error.unauthorized\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"error.unauthorized\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Update a User",
+                "description": "Update user details",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"id\": 1,\n    \"fname\": \"Pandurang\",\n    \"lname\": \"Patil\",\n    \"email\": \"pandurangpatil@email.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"id\": 1,\n    \"fname\": \"Pandurang\",\n    \"lname\": \"Patil\",\n    \"email\": \"pandurangpatil@email.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"id\": 1,\n    \"fname\": \"Pandurang\",\n    \"lname\": \"Patil\",\n    \"email\": \"pandurangpatil@email.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"id\": 1,\n    \"fname\": \"Pandurang\",\n    \"lname\": \"Patil\",\n    \"email\": \"pandurangpatil@email.com\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "401",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"error.unauthorized\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"error.unauthorized\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Remove a User",
+                "description": "",
+                "method": "DELETE",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [],
+                    "responses": [
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      },
+                      {
+                        "name": "401",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"error\": \"error.unauthorized\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"error\": \"error.unauthorized\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": [
+    {
+      "code": 8,
+      "message": "parameter 'limit' is not found within the URI template '/users(?since,limit)' for 'User Collection' ",
+      "location": [
+        {
+          "index": 1650,
+          "length": 25
+        }
+      ]
+    }
+  ]
+}
