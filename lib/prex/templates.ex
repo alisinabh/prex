@@ -116,7 +116,7 @@ defmodule Prex.Templates do
 
     new_recall_acc = recall_acc <> var_name <> ","
 
-    new_body_acc = body_acc <> " \"#{name}\" => #{var_name},"
+    new_body_acc = body_acc <> "\"#{name}\" => #{var_name}, "
 
     new_doc_acc = doc_acc <> "\n- #{var_name}: #{description}"
 
@@ -126,7 +126,7 @@ defmodule Prex.Templates do
   defp get_action_params([], param_acc, recall_acc, body_acc, doc_acc) do
     param = param_acc |> String.slice(0, String.length(param_acc) - 1) |> String.replace(",", ", ")
     recall = recall_acc |> String.slice(0, String.length(recall_acc) - 1) |> String.replace(",", ", ")
-    body = body_acc |> String.slice(0, String.length(body_acc) - 1)
+    body = body_acc |> String.slice(0, String.length(body_acc) - 2)
     doc =  "  " <> (doc_acc |> String.slice(1, String.length(doc_acc)) |> String.replace("\n", "\n    "))
     {:ok, param, recall, body, doc}
   end
