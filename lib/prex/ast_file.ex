@@ -3,6 +3,8 @@ defmodule Prex.AstFile do
   Documentation for AstFile.
   """
 
+  import Prex.NameHelpers
+
   @doc """
   Parses an ast json of an ap blueprint into a map.
   """
@@ -40,12 +42,14 @@ defmodule Prex.AstFile do
   @doc """
   Generate elixir modules for a group
   """
-  @spec generate_modules(String.t, Map.t, String.t) :: String.t
-  def generate_modules(api_name, group, base_url) do
+  @spec generate_module(String.t, Map.t, String.t) :: {:ok, String.t, String.t}
+  def generate_module(api_name, group, base_url) do
     %{"name" => group_name, "description" => group_description, "resources" => resources} = group
     actions_code = do_generate_module(base_url, group_name, group_description, resources, [])
 
-    Prex.Templates.get_module(api_name, group_name, base_url, group_description, actions_code)
+    {:ok,
+     "#{normalize_var_name(api_name)}__#{normalize_var_name(group_name)}.ex", # TODO fix folders
+     Prex.Templates.get_module(api_name, group_name, base_url, group_description, actions_code)}
   end
 
   defp do_generate_module(base_url, group_name, group_description, [resource | tail], acc) do
@@ -57,19 +61,12 @@ defmodule Prex.AstFile do
   defp do_generate_module(_group_name, _group_description, [], acc), do: acc
 
   defp get_actions(uri, global_params, [action | tail], acc) do
-    %{"name" => name, "description" => description, "method" => method, "parameters" => _parameters} = action
-    function_string = Prex.Templates.action_template(name, uri, method, [], description)
+    %{"name" => name, "description" => description, "method" => method, "parameters" => parameters} = action
+    function_string = Prex.Templates.action_template(name, uri, method, global_params ++ parameters, description)
 
     get_actions(uri, global_params, tail, acc <> function_string)
   end
 
   defp get_actions(_uri, _global_params, [], acc), do: acc
-
-  def test do
-    file = parse_file! "test.json"
-    [gp | _] = get_resource_groups(file)
-    IO.puts generate_modules("testExample", gp, get_host(file))
-
-  end
 
 end

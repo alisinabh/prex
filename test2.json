@@ -1,0 +1,3875 @@
+{
+  "_version": "2.2",
+  "ast": {
+    "_version": "4.0",
+    "metadata": [
+      {
+        "name": "FORMAT",
+        "value": "1A"
+      },
+      {
+        "name": "HOST",
+        "value": "http://api.servioticy.com"
+      }
+    ],
+    "name": "servIoTicy",
+    "description": "The **servIoTicy API** is a generic service for managing and processing IoT data streams.\n\nThis document describes the ServiceObject related resources of the servIoTicy API that are publicly available.\n\nThe `ServiceObject` definition document (JSON) has the following attributes\n\n`name`: The name of the ServiceObject\n    `description`: Textual description of the ServiceObject\n    `streams`: List of streams associated to the ServiceObject\n    `customFields`: Array of user-defined properties\n    `actions`: Array of actuations than can be invoked for the ServiceObject\n    `properties`: Array of properties that enrich the description of the ServiceObject\n\nFor each `stream`, the definition document describes:\n\nA name for the stream (`location` in the example)\n    `channels`: A series of channels for the `stream` (`latitude` and `longitude` in the example)\n    `description`: Textual description of the `stream`\n    `type`: Type of device associated to this `stream`\n\nFor each `channel`, the definition document describes:\n\nA name for the channel (`latitude` and `longitude` in the example)\n    `type`: Data type associated to this channel (may be `number`, `string`, `boolean` or `geo_point`)\n    `unit`: What units are associated to the data generated for this channel",
+    "element": "category",
+    "resourceGroups": [
+      {
+        "name": "ServiceObject LifeCycle",
+        "description": "",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "Creating and Destroying Service Objects",
+            "description": "Creating new ServiceObjects and Retrieving all ServiceObjects associated to **one user**.\n\n**Important note about data privacy**: The **public** field in the data model indicates if the data associated to this Service Object is private (only accessible to the Service Object owner) or if it is public\nand freely accessible to anybody. By default, if no **public** field is provided, data is private.",
+            "uriTemplate": "/",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Deploy a new ServiceObject",
+                "description": "Create a new ServiceObject definition and register it in the repository. The **unique** ServiceObject id (`soId`) is returned on success.",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "{  \n   \"name\": \"Phone\", \n   \"description\": \"COMPOSE phone\", \n   \"URL\": \"Web Object URL \",\n   \"public\":\"true\",\n   \"streams\": {\n         \"location\": {\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\"\n        }\n    },\n    \"customFields\": {},\n    \"actions\": [],\n    \"properties\": []\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n   \"name\": \"Phone\", \n   \"description\": \"COMPOSE phone\", \n   \"URL\": \"Web Object URL \",\n   \"public\":\"true\",\n   \"streams\": {\n         \"location\": {\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\"\n        }\n    },\n    \"customFields\": {},\n    \"actions\": [],\n    \"properties\": []\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{ \n  \"id\": \"139221276359507f4059f607a4a16b9583b4a169e4937\", \n  \"createdAt\": 1392214220313\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{ \n  \"id\": \"139221276359507f4059f607a4a16b9583b4a169e4937\", \n  \"createdAt\": 1392214220313\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Get all the ServiceObjects from a user",
+                "description": "Retrieve all the Service Objects from a given user (identified by the `Authorization` header).",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "[\n    \"139221276359507f4059f607a4a16b9583b4a169e4937\"\n]\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "[\n    \"139221276359507f4059f607a4a16b9583b4a169e4937\"\n]\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "name": "ServiceObject Definition",
+        "description": "",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "Retrieving and Updating the ServiceObject Definition",
+            "description": "",
+            "uriTemplate": "/{soId}",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Retrieve the ServiceObject description",
+                "description": "Retrieve the description of a Service Object",
+                "method": "GET",
+                "parameters": [
+                  {
+                    "name": "soId",
+                    "description": "`id` of the ServiceObject",
+                    "type": "hexadecimal",
+                    "required": true,
+                    "default": "",
+                    "example": "139221276359507f4059f607",
+                    "values": []
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"id\": \"139221276359507f4059f607a4a16b9583b4a169e4937\",\n    \"name\": \"Phone\",\n    \"description\": \"COMPOSE phone\",\n    \"URL\": \"Web Object URL \",\n    \"public\":\"true\",\n    \"streams\": {\n        \"location\": {\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\"\n        }\n    },\n    \"customFields\": {},\n    \"actions\": [],\n    \"properties\": []\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"id\": \"139221276359507f4059f607a4a16b9583b4a169e4937\",\n    \"name\": \"Phone\",\n    \"description\": \"COMPOSE phone\",\n    \"URL\": \"Web Object URL \",\n    \"public\":\"true\",\n    \"streams\": {\n        \"location\": {\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\"\n        }\n    },\n    \"customFields\": {},\n    \"actions\": [],\n    \"properties\": []\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Update ServiceObject description",
+                "description": "Update the description of a Service Object. Only the following fields can be updated, **other information is ignored**:\n\n`customFields`: Array of user-defined properties",
+                "method": "PUT",
+                "parameters": [
+                  {
+                    "name": "soId",
+                    "description": "`id` of the ServiceObject",
+                    "type": "hexadecimal",
+                    "required": true,
+                    "default": "",
+                    "example": "139221276359507f4059f607",
+                    "values": []
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "{  \n   \"name\": \"Phone\", \n   \"description\": \"COMPOSE phone\", \n   \"URL\": \"Web Object URL \",\n    \"streams\": {\n         \"location\": {\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\",\n        }\n    },\n    \"customFields\": {},\n    \"actions\": [],\n    \"properties\": [],\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n   \"name\": \"Phone\", \n   \"description\": \"COMPOSE phone\", \n   \"URL\": \"Web Object URL \",\n    \"streams\": {\n         \"location\": {\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\",\n        }\n    },\n    \"customFields\": {},\n    \"actions\": [],\n    \"properties\": [],\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{ \n  \"id\": \"139221276359507f4059f607a4a16b9583b4a169e4937\", \n  \"updatedAt\": 1392214220313\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{ \n  \"id\": \"139221276359507f4059f607a4a16b9583b4a169e4937\", \n  \"updatedAt\": 1392214220313\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Delete the ServiceObject description",
+                "description": "Delete the description of a Service Object, and all associated data\n\n**IMPORTANT: Implies that all data is removed, that all the subscriptions where this SO was referenced are removed**",
+                "method": "DELETE",
+                "parameters": [
+                  {
+                    "name": "soId",
+                    "description": "`id` of the ServiceObject",
+                    "type": "hexadecimal",
+                    "required": true,
+                    "default": "",
+                    "example": "139221276359507f4059f607",
+                    "values": []
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Retrieving ServiceObject Streams",
+            "description": "",
+            "uriTemplate": "/{soId}/streams",
+            "model": {},
+            "parameters": [
+              {
+                "name": "soId",
+                "description": "`id` of the ServiceObject",
+                "type": "hexadecimal",
+                "required": true,
+                "default": "",
+                "example": "139221276359507f4059f607",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Retieve the description of the ServiceObject streams",
+                "description": "Retieve the description of the streams field in the ServiceObject definition document",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": " {\n    \"streams\": [\n        {\n            \"name\": \"location\",\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"Number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"Number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\",\n            \"subscriptions\": [\n                \"1392214219117390439ca88664838a3321421c48a62e5\"\n            ]\n        }\n    ]\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": " {\n    \"streams\": [\n        {\n            \"name\": \"location\",\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"Number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"Number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\",\n            \"subscriptions\": [\n                \"1392214219117390439ca88664838a3321421c48a62e5\"\n            ]\n        }\n    ]\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "name": "Data operations",
+        "description": "",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "Retrieve Data",
+            "description": "",
+            "uriTemplate": "/{soId}/streams/{streamId}/{timeModifier}",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Get Data stored for the ServiceObject",
+                "description": "Retrieve data stored in the platform that is associated to one particular stream (`streamId`) of the ServiceObject with id `soId`. \nOptions are:\n\nRetrieve all data stored (no `timeModifier` provided)\n    Retrieve all data stored that was generated after a provided timeStamp (a timeStamp is provided as `timeModifier`)\n    Retrieve only the latest sensor updated associated to the given stream (`timeModifier` takes value `lastUpdate`)",
+                "method": "GET",
+                "parameters": [
+                  {
+                    "name": "soId",
+                    "description": "`id` of the ServiceObject",
+                    "type": "hexadecimal",
+                    "required": true,
+                    "default": "",
+                    "example": "139221276359507f4059f607",
+                    "values": []
+                  },
+                  {
+                    "name": "streamId",
+                    "description": "`id` of the stream to be subscribed to",
+                    "type": "text",
+                    "required": true,
+                    "default": "",
+                    "example": "location",
+                    "values": []
+                  },
+                  {
+                    "name": "timeModifier",
+                    "description": "If `lastUpdate` modifier is provided, only the latest sensor update will be returned. If a particular\ntimestamp is provided, all data **since** that timestamp will be sent. Otherwise all existing data will be sent in the response.",
+                    "type": "text",
+                    "required": false,
+                    "default": "",
+                    "example": "",
+                    "values": [
+                      {
+                        "value": "lastUpdate"
+                      },
+                      {
+                        "value": "1199192940 (option not yet implemented)"
+                      }
+                    ]
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"data\": [\n        { \n         \"channels\": {\n            \"latitude\": {\n              \"current-value\": 50.818395,\n              \"unit\": \"degrees\"\n            },\n            \"longitude\": {\n              \"current-value\": 4.40313,\n              \"unit\": \"degrees\"\n            }\n          },\n          \"lastUpdate\": 1199192940\n        },\n        {\n          \"channels\": {\n            \"latitude\": {\n              \"current-value\": 50.818395,\n              \"unit\": \"degrees\"\n            },\n            \"longitude\": {\n              \"current-value\": 4.40313,\n              \"unit\": \"degrees\"\n            }\n          },\n          \"lastUpdate\": 1199192945\n        }\n    ]\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"data\": [\n        { \n         \"channels\": {\n            \"latitude\": {\n              \"current-value\": 50.818395,\n              \"unit\": \"degrees\"\n            },\n            \"longitude\": {\n              \"current-value\": 4.40313,\n              \"unit\": \"degrees\"\n            }\n          },\n          \"lastUpdate\": 1199192940\n        },\n        {\n          \"channels\": {\n            \"latitude\": {\n              \"current-value\": 50.818395,\n              \"unit\": \"degrees\"\n            },\n            \"longitude\": {\n              \"current-value\": 4.40313,\n              \"unit\": \"degrees\"\n            }\n          },\n          \"lastUpdate\": 1199192945\n        }\n    ]\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Store and Delete data",
+            "description": "",
+            "uriTemplate": "/{soId}/streams/{streamId}",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Push data to the platform",
+                "description": "Store (and process) new data associated to the stream `streamId` of the ServiceObject `soId`",
+                "method": "PUT",
+                "parameters": [
+                  {
+                    "name": "soId",
+                    "description": "`id` of the ServiceObject",
+                    "type": "hexadecimal",
+                    "required": true,
+                    "default": "",
+                    "example": "139221276359507f4059f607",
+                    "values": []
+                  },
+                  {
+                    "name": "streamId",
+                    "description": "`id` of the stream to be subscribed to",
+                    "type": "text",
+                    "required": true,
+                    "default": "",
+                    "example": "location",
+                    "values": []
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "{\n    \"channels\": {\n        \"latitude\": {\n            \"current-value\": 50.818395,\n            \"unit\": \"degrees\"\n        },\n        \"longitude\": {\n            \"current-value\": 4.40313,\n            \"unit\": \"degrees\"\n        }\n    },\n    \"lastUpdate\": 1199192940\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"channels\": {\n        \"latitude\": {\n            \"current-value\": 50.818395,\n            \"unit\": \"degrees\"\n        },\n        \"longitude\": {\n            \"current-value\": 4.40313,\n            \"unit\": \"degrees\"\n        }\n    },\n    \"lastUpdate\": 1199192940\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "202",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"status\": \"Data stored, accepted for dispatching\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"status\": \"Data stored, accepted for dispatching\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Delete all data stored for a Service Object stream",
+                "description": "Clear all data associated to the stream `streamId` of the ServiceObject `soId`",
+                "method": "DELETE",
+                "parameters": [
+                  {
+                    "name": "soId",
+                    "description": "`id` of the ServiceObject",
+                    "type": "hexadecimal",
+                    "required": true,
+                    "default": "",
+                    "example": "139221276359507f4059f607",
+                    "values": []
+                  },
+                  {
+                    "name": "streamId",
+                    "description": "`id` of the stream to be subscribed to",
+                    "type": "text",
+                    "required": true,
+                    "default": "",
+                    "example": "location",
+                    "values": []
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "name": "External Subscriptions",
+        "description": "",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "List all subscriptions",
+            "description": "Operations on the subscriptions owned by a user",
+            "uriTemplate": "/{soId}/streams/{streamId}/subscriptions",
+            "model": {},
+            "parameters": [
+              {
+                "name": "soId",
+                "description": "`id` of the ServiceObject",
+                "type": "hexadecimal",
+                "required": true,
+                "default": "",
+                "example": "139221276359507f4059f607",
+                "values": []
+              },
+              {
+                "name": "streamId",
+                "description": "`id` of the stream to be subscribed to",
+                "type": "text",
+                "required": true,
+                "default": "",
+                "example": "location",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Get all subscriptions",
+                "description": "Get all the subscriptions created by a user",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"subscriptions\": [\n        {\n            \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n            \"createdAt\": 1392214219117,\n            \"updatedAt\": 1392214219117,\n            \"callback\": \"http\",\n            \"source\": \"139221276359507f4059f607a4a16b9583b4a169e4937\",\n            \"destination\": \"http://192.168.1.11:5000/update/@latitude@/@longitude@\",\n            \"stream\": \"location\",\n            \"customFields\": {\n                \"aliases\": [\n                    { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n                    {\"@latitude@\": \"##latitude!!\"}, \n                    {\"@longitude@\": \"##longitude!!\"} \n                ],\n                \"method\": \"GET\"\n            }\n        }\n    ]\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"subscriptions\": [\n        {\n            \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n            \"createdAt\": 1392214219117,\n            \"updatedAt\": 1392214219117,\n            \"callback\": \"http\",\n            \"source\": \"139221276359507f4059f607a4a16b9583b4a169e4937\",\n            \"destination\": \"http://192.168.1.11:5000/update/@latitude@/@longitude@\",\n            \"stream\": \"location\",\n            \"customFields\": {\n                \"aliases\": [\n                    { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n                    {\"@latitude@\": \"##latitude!!\"}, \n                    {\"@longitude@\": \"##longitude!!\"} \n                ],\n                \"method\": \"GET\"\n            }\n        }\n    ]\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Create a new subscription",
+                "description": "Creates a new external subscription for the stream `streamId` of the ServiceObject `soId`.\n\nPossible callbacks are:\n\n'http': For external HTTP endpoints\n    'pubsub': For COMPOSE Pub/Sub notifications using either MQTT, STOMP/TCP or STOMP/WS\n\nVerifies that:\n\n1. Exists callback field in body request\n    2. Exists destination field in body request\n\n`customFields` can be used to introduce user-defined data, and also to define `aliases` that will replaced in the `destination` field with the corresponding values.",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "{\n    \"callback\":\"http\", \n    \"destination\":\"http://www.webserver.com/update/@latitude@/@longitude@\", \n    \"customFields\": { \n        \"aliases\": [ \n            { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n            {\"@latitude@\": \"##latitude!!\"}, \n            {\"@longitude@\": \"##longitude!!\"} \n        ], \n        \"method\":\"GET\" \n    } \n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"callback\":\"http\", \n    \"destination\":\"http://www.webserver.com/update/@latitude@/@longitude@\", \n    \"customFields\": { \n        \"aliases\": [ \n            { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n            {\"@latitude@\": \"##latitude!!\"}, \n            {\"@longitude@\": \"##longitude!!\"} \n        ], \n        \"method\":\"GET\" \n    } \n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n  \"createdAt\": 1392214219117\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n  \"createdAt\": 1392214219117\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Management",
+            "description": "Management of individual subscriptions that already exist",
+            "uriTemplate": "/subscriptions/{subscriptionId}",
+            "model": {},
+            "parameters": [
+              {
+                "name": "subscriptionId",
+                "description": "`id` of the subscription",
+                "type": "hexadecimal",
+                "required": false,
+                "default": "",
+                "example": "139221276359507f4059f607",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Update an existing subscription",
+                "description": "Replace the subscription document with a new one. Removes the previous one.",
+                "method": "PUT",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "{\n    \"callback\":\"http\", \n    \"destination\":\"http://www.webserver.com/update/@latitude@/@longitude@\", \n    \"customFields\": { \n        \"aliases\": [ \n            { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n            {\"@latitude@\": \"##latitude!!\"}, \n            {\"@longitude@\": \"##longitude!!\"} \n        ], \n        \"method\":\"GET\" \n    } \n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"callback\":\"http\", \n    \"destination\":\"http://www.webserver.com/update/@latitude@/@longitude@\", \n    \"customFields\": { \n        \"aliases\": [ \n            { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n            {\"@latitude@\": \"##latitude!!\"}, \n            {\"@longitude@\": \"##longitude!!\"} \n        ], \n        \"method\":\"GET\" \n    } \n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n  \"updatedAt\": 1392214219117\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n  \"updatedAt\": 1392214219117\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Delete an existing subscription",
+                "description": "Delete the subscription document",
+                "method": "DELETE",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Get an existing subscription",
+                "description": "Retrieve the subscription document",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"subscriptions\": [\n        {\n            \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n            \"createdAt\": 1392214219117,\n            \"updatedAt\": 1392214219117,\n            \"callback\": \"http\",\n            \"source\": \"139221276359507f4059f607a4a16b9583b4a169e4937\",\n            \"destination\": \"http://192.168.1.11:5000/update/@latitude@/@longitude@\",\n            \"stream\": \"location\",\n            \"customFields\": {\n                \"aliases\": [\n                    { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n                    {\"@latitude@\": \"##latitude!!\"}, \n                    {\"@longitude@\": \"##longitude!!\"} \n                ],\n                \"method\": \"GET\"\n            }\n        }\n    ]\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"subscriptions\": [\n        {\n            \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n            \"createdAt\": 1392214219117,\n            \"updatedAt\": 1392214219117,\n            \"callback\": \"http\",\n            \"source\": \"139221276359507f4059f607a4a16b9583b4a169e4937\",\n            \"destination\": \"http://192.168.1.11:5000/update/@latitude@/@longitude@\",\n            \"stream\": \"location\",\n            \"customFields\": {\n                \"aliases\": [\n                    { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n                    {\"@latitude@\": \"##latitude!!\"}, \n                    {\"@longitude@\": \"##longitude!!\"} \n                ],\n                \"method\": \"GET\"\n            }\n        }\n    ]\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}              \n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}              \n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "name": "Actuations",
+        "description": "",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "Actuations that can be invoked in a ServiceObject",
+            "description": "Get all actuations that can be invoked in a ServiceObject",
+            "uriTemplate": "/{soId}/actuations",
+            "model": {},
+            "parameters": [
+              {
+                "name": "soId",
+                "description": "`id` of the ServiceObject",
+                "type": "hexadecimal",
+                "required": true,
+                "default": "",
+                "example": "139221276359507f4059f607",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Get list of actuations that can be invoked",
+                "description": "",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [],
+                        "body": "{  \n    \"actions\": [\n        {\n            \"name\": \"reboot-all\",\n            \"description\": \"Reboots the devices in the group\"\n        },\n        {\n            \"name\": \"shutdown-all\",\n            \"description\": \"Shutdowns the devices in the group\"\n        }\n\n       ]\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n    \"actions\": [\n        {\n            \"name\": \"reboot-all\",\n            \"description\": \"Reboots the devices in the group\"\n        },\n        {\n            \"name\": \"shutdown-all\",\n            \"description\": \"Shutdowns the devices in the group\"\n        }\n\n       ]\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Initiating actuations in a ServiceObject",
+            "description": "Launch an acuation on a device",
+            "uriTemplate": "/{soId}/actuations/{actuationName}",
+            "model": {},
+            "parameters": [
+              {
+                "name": "soId",
+                "description": "`id` of the ServiceObject",
+                "type": "hexadecimal",
+                "required": true,
+                "default": "",
+                "example": "139221276359507f4059f607",
+                "values": []
+              },
+              {
+                "name": "actuationName",
+                "description": "`name` of the actuation to invoke (only used for POST)",
+                "type": "string",
+                "required": false,
+                "default": "",
+                "example": "reboot-all",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Initiate an actuation",
+                "description": "",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "202",
+                        "description": "",
+                        "headers": [],
+                        "body": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"createdAt\": 1392214219117\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"createdAt\": 1392214219117\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Management of initiated actuations",
+            "description": "",
+            "uriTemplate": "/actuations/{actuationId}",
+            "model": {},
+            "parameters": [
+              {
+                "name": "actuationId",
+                "description": "`id` of the actuation",
+                "type": "hexadecimal",
+                "required": true,
+                "default": "",
+                "example": "1392214219117390439c",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Get an actuation status",
+                "description": "",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [],
+                        "body": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"completed\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"completed\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}    \n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}    \n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Update an actuation status",
+                "description": "",
+                "method": "PUT",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "New status String\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "New status String\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [],
+                        "body": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"completed\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"completed\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Cancel a launched action",
+                "description": "**NOT IMPLEMENTED**",
+                "method": "DELETE",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [],
+                        "body": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"cancelled\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"cancelled\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "405",
+                        "description": "",
+                        "headers": [],
+                        "body": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"can not be cancelled\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"can not be cancelled\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "name": "Data Queries",
+        "description": "",
+        "resources": [
+          {
+            "element": "resource",
+            "name": "Queries on the data of a single Service Object",
+            "description": "Types of queries supported:\n\n**geodistance**: Search for Updates within a given distance of a given coordinate. Incompatible with `GeoBoundingBox`. *Requires* a `location` channel (in **GeoJson** format) to exist, which will be used to keep the location of the sensor updates.\n\nExample payload:\n\n{\n        \"geodistance\": true,\n        \"geodistancevalue\": 300,\n        \"pointlat\": 43.15,\n        \"pointlon\": 15.43,\n        \"geodistanceunit\": \"km\"\n    }\n\n**geoboundingbox**: Search for Updates within a geo fence. Incompatible with `GeoDistance`. *Requires* a `location` channel (in **GeoJson** format) to exist, which will be used to keep the location of the sensor updates.\n\nExample payload:\n\n{\n        \"geoboundingbox\": true,\n        \"geoboxupperleftlat\": 15.43,\n        \"geoboxupperleftlat\": 43.15,\n        \"geoboxbottomrightlat\": 47.15,\n        \"geoboxbottomrightlon\": 15.47\n    }\n\n**timerange**: Search for Updates with a `lastUpdate` field value within a range of timestamps.\n\nExample payloads:\n\n{\n        \"timerange\": true,\n        \"rangefrom\": 1396859660,\n        \"rangeto\": 1396859760\n    }    \n \n    {\n        \"timerange\": true,\n        \"rangeto\": 1396859760\n    }    \n\n    {\n        \"timerange\": true,\n        \"rangefrom\": 1396859660,\n    }\n\n**numericrange**: Search for Updates with a given field value within a range of values.\n\nExample payloads:\n\n{\n        \"numericrange\": true,\n        \"rangefrom\": 13,\n        \"rangeto\": 17,\n        \"numericrangefield\": \"channels.age.current-value\"\n    }\n\n    {\n        \"numericrange\": true,\n        \"rangefrom\": 13,\n        \"numericrangefield\": \"channels.age.current-value\"\n    }\n\n    {\n        \"numericrange\": true,\n        \"rangeto\": 17,\n        \"numericrangefield\": \"channels.age.current-value\"\n    }\n\n**match**: Search for Updates that match in any of its fields with the terms listed (any of them)\n\nExample payloads:\n\n{\n        \"match\": true,\n        \"matchfield\": \"channels.name.current-value\",\n        \"matchstring\": \"Peter John\",\n    }\n\nExample of complex query that restricts:\n\n* Field `channels.age.current-value` between 13 and 17\n\n* `lastUpdate` of the items above 1396859660\n\n* Containing the terms \"John\" or \"Peter\" in the field `channels.name.current-value`\n\n* Located within a GeoFenc\n\nCorresponding payload:\n\n{\n        \"numericrange\": true,\n        \"rangefrom\": 13,\n        \"rangeto\": 17,\n        \"numericrangefield\": \"channels.age.current-value\",\n        \n        \"timerange\": true,\n        \"rangefrom\": 1396859660,\n        \n        \"match\": true,\n        \"matchfield\": \"channels.name.current-value\",\n        \"matchstring\": \"Peter John\",\n        \n        \"geoboundingbox\": true,\n        \"geoboxupperleftlat\": 15.43,\n        \"geoboxupperleftlat\": 43.15,\n        \"geoboxbottomrightlat\": 47.15,\n        \"geoboxbottomrightlon\": 15.47\n    }",
+            "uriTemplate": "/{soId}/streams/{streamId}/search",
+            "model": {},
+            "parameters": [
+              {
+                "name": "soId",
+                "description": "`id` of the ServiceObject",
+                "type": "hexadecimal",
+                "required": true,
+                "default": "",
+                "example": "139221276359507f4059f607",
+                "values": []
+              },
+              {
+                "name": "streamId",
+                "description": "`id` of the stream to be subscribed to",
+                "type": "text",
+                "required": true,
+                "default": "",
+                "example": "location",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Query data",
+                "description": "Query data associated to a given Service Object",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "{\n    \"geodistance\": true,\n    \"geodistancevalue\": 300,\n    \"pointlat\": 43.15,\n    \"pointlon\": 15.43,\n    \"geodistanceunit\": \"km\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"geodistance\": true,\n    \"geodistancevalue\": 300,\n    \"pointlat\": 43.15,\n    \"pointlon\": 15.43,\n    \"geodistanceunit\": \"km\"\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "    {\n        \"channels\": {\n            \"location\": {\n                \"current-value\": [43.15,15.44],\n                \"unit\": \"degrees\"\n            }\n        },\n        \"lastUpdate\": 1199192940\n    }\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "    {\n        \"channels\": {\n            \"location\": {\n                \"current-value\": [43.15,15.44],\n                \"unit\": \"degrees\"\n            }\n        },\n        \"lastUpdate\": 1199192940\n    }\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ],
+    "content": [
+      {
+        "element": "category",
+        "attributes": {
+          "name": "ServiceObject LifeCycle"
+        },
+        "content": [
+          {
+            "element": "resource",
+            "name": "Creating and Destroying Service Objects",
+            "description": "Creating new ServiceObjects and Retrieving all ServiceObjects associated to **one user**.\n\n**Important note about data privacy**: The **public** field in the data model indicates if the data associated to this Service Object is private (only accessible to the Service Object owner) or if it is public\nand freely accessible to anybody. By default, if no **public** field is provided, data is private.",
+            "uriTemplate": "/",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Deploy a new ServiceObject",
+                "description": "Create a new ServiceObject definition and register it in the repository. The **unique** ServiceObject id (`soId`) is returned on success.",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "{  \n   \"name\": \"Phone\", \n   \"description\": \"COMPOSE phone\", \n   \"URL\": \"Web Object URL \",\n   \"public\":\"true\",\n   \"streams\": {\n         \"location\": {\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\"\n        }\n    },\n    \"customFields\": {},\n    \"actions\": [],\n    \"properties\": []\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n   \"name\": \"Phone\", \n   \"description\": \"COMPOSE phone\", \n   \"URL\": \"Web Object URL \",\n   \"public\":\"true\",\n   \"streams\": {\n         \"location\": {\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\"\n        }\n    },\n    \"customFields\": {},\n    \"actions\": [],\n    \"properties\": []\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{ \n  \"id\": \"139221276359507f4059f607a4a16b9583b4a169e4937\", \n  \"createdAt\": 1392214220313\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{ \n  \"id\": \"139221276359507f4059f607a4a16b9583b4a169e4937\", \n  \"createdAt\": 1392214220313\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Get all the ServiceObjects from a user",
+                "description": "Retrieve all the Service Objects from a given user (identified by the `Authorization` header).",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "[\n    \"139221276359507f4059f607a4a16b9583b4a169e4937\"\n]\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "[\n    \"139221276359507f4059f607a4a16b9583b4a169e4937\"\n]\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "element": "category",
+        "attributes": {
+          "name": "ServiceObject Definition"
+        },
+        "content": [
+          {
+            "element": "resource",
+            "name": "Retrieving and Updating the ServiceObject Definition",
+            "description": "",
+            "uriTemplate": "/{soId}",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Retrieve the ServiceObject description",
+                "description": "Retrieve the description of a Service Object",
+                "method": "GET",
+                "parameters": [
+                  {
+                    "name": "soId",
+                    "description": "`id` of the ServiceObject",
+                    "type": "hexadecimal",
+                    "required": true,
+                    "default": "",
+                    "example": "139221276359507f4059f607",
+                    "values": []
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"id\": \"139221276359507f4059f607a4a16b9583b4a169e4937\",\n    \"name\": \"Phone\",\n    \"description\": \"COMPOSE phone\",\n    \"URL\": \"Web Object URL \",\n    \"public\":\"true\",\n    \"streams\": {\n        \"location\": {\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\"\n        }\n    },\n    \"customFields\": {},\n    \"actions\": [],\n    \"properties\": []\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"id\": \"139221276359507f4059f607a4a16b9583b4a169e4937\",\n    \"name\": \"Phone\",\n    \"description\": \"COMPOSE phone\",\n    \"URL\": \"Web Object URL \",\n    \"public\":\"true\",\n    \"streams\": {\n        \"location\": {\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\"\n        }\n    },\n    \"customFields\": {},\n    \"actions\": [],\n    \"properties\": []\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Update ServiceObject description",
+                "description": "Update the description of a Service Object. Only the following fields can be updated, **other information is ignored**:\n\n`customFields`: Array of user-defined properties",
+                "method": "PUT",
+                "parameters": [
+                  {
+                    "name": "soId",
+                    "description": "`id` of the ServiceObject",
+                    "type": "hexadecimal",
+                    "required": true,
+                    "default": "",
+                    "example": "139221276359507f4059f607",
+                    "values": []
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "{  \n   \"name\": \"Phone\", \n   \"description\": \"COMPOSE phone\", \n   \"URL\": \"Web Object URL \",\n    \"streams\": {\n         \"location\": {\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\",\n        }\n    },\n    \"customFields\": {},\n    \"actions\": [],\n    \"properties\": [],\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n   \"name\": \"Phone\", \n   \"description\": \"COMPOSE phone\", \n   \"URL\": \"Web Object URL \",\n    \"streams\": {\n         \"location\": {\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\",\n        }\n    },\n    \"customFields\": {},\n    \"actions\": [],\n    \"properties\": [],\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{ \n  \"id\": \"139221276359507f4059f607a4a16b9583b4a169e4937\", \n  \"updatedAt\": 1392214220313\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{ \n  \"id\": \"139221276359507f4059f607a4a16b9583b4a169e4937\", \n  \"updatedAt\": 1392214220313\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Delete the ServiceObject description",
+                "description": "Delete the description of a Service Object, and all associated data\n\n**IMPORTANT: Implies that all data is removed, that all the subscriptions where this SO was referenced are removed**",
+                "method": "DELETE",
+                "parameters": [
+                  {
+                    "name": "soId",
+                    "description": "`id` of the ServiceObject",
+                    "type": "hexadecimal",
+                    "required": true,
+                    "default": "",
+                    "example": "139221276359507f4059f607",
+                    "values": []
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Retrieving ServiceObject Streams",
+            "description": "",
+            "uriTemplate": "/{soId}/streams",
+            "model": {},
+            "parameters": [
+              {
+                "name": "soId",
+                "description": "`id` of the ServiceObject",
+                "type": "hexadecimal",
+                "required": true,
+                "default": "",
+                "example": "139221276359507f4059f607",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Retieve the description of the ServiceObject streams",
+                "description": "Retieve the description of the streams field in the ServiceObject definition document",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": " {\n    \"streams\": [\n        {\n            \"name\": \"location\",\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"Number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"Number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\",\n            \"subscriptions\": [\n                \"1392214219117390439ca88664838a3321421c48a62e5\"\n            ]\n        }\n    ]\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": " {\n    \"streams\": [\n        {\n            \"name\": \"location\",\n            \"channels\": {\n                \"latitude\": {\n                    \"type\": \"Number\",\n                    \"unit\": \"degrees\"\n                },\n                \"longitude\": {\n                    \"type\": \"Number\",\n                    \"unit\": \"degrees\"\n                }\n            },\n            \"description\": \"GPS outdoor location\",\n            \"type\": \"sensor\",\n            \"subscriptions\": [\n                \"1392214219117390439ca88664838a3321421c48a62e5\"\n            ]\n        }\n    ]\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "element": "category",
+        "attributes": {
+          "name": "Data operations"
+        },
+        "content": [
+          {
+            "element": "resource",
+            "name": "Retrieve Data",
+            "description": "",
+            "uriTemplate": "/{soId}/streams/{streamId}/{timeModifier}",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Get Data stored for the ServiceObject",
+                "description": "Retrieve data stored in the platform that is associated to one particular stream (`streamId`) of the ServiceObject with id `soId`. \nOptions are:\n\nRetrieve all data stored (no `timeModifier` provided)\n    Retrieve all data stored that was generated after a provided timeStamp (a timeStamp is provided as `timeModifier`)\n    Retrieve only the latest sensor updated associated to the given stream (`timeModifier` takes value `lastUpdate`)",
+                "method": "GET",
+                "parameters": [
+                  {
+                    "name": "soId",
+                    "description": "`id` of the ServiceObject",
+                    "type": "hexadecimal",
+                    "required": true,
+                    "default": "",
+                    "example": "139221276359507f4059f607",
+                    "values": []
+                  },
+                  {
+                    "name": "streamId",
+                    "description": "`id` of the stream to be subscribed to",
+                    "type": "text",
+                    "required": true,
+                    "default": "",
+                    "example": "location",
+                    "values": []
+                  },
+                  {
+                    "name": "timeModifier",
+                    "description": "If `lastUpdate` modifier is provided, only the latest sensor update will be returned. If a particular\ntimestamp is provided, all data **since** that timestamp will be sent. Otherwise all existing data will be sent in the response.",
+                    "type": "text",
+                    "required": false,
+                    "default": "",
+                    "example": "",
+                    "values": [
+                      {
+                        "value": "lastUpdate"
+                      },
+                      {
+                        "value": "1199192940 (option not yet implemented)"
+                      }
+                    ]
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"data\": [\n        { \n         \"channels\": {\n            \"latitude\": {\n              \"current-value\": 50.818395,\n              \"unit\": \"degrees\"\n            },\n            \"longitude\": {\n              \"current-value\": 4.40313,\n              \"unit\": \"degrees\"\n            }\n          },\n          \"lastUpdate\": 1199192940\n        },\n        {\n          \"channels\": {\n            \"latitude\": {\n              \"current-value\": 50.818395,\n              \"unit\": \"degrees\"\n            },\n            \"longitude\": {\n              \"current-value\": 4.40313,\n              \"unit\": \"degrees\"\n            }\n          },\n          \"lastUpdate\": 1199192945\n        }\n    ]\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"data\": [\n        { \n         \"channels\": {\n            \"latitude\": {\n              \"current-value\": 50.818395,\n              \"unit\": \"degrees\"\n            },\n            \"longitude\": {\n              \"current-value\": 4.40313,\n              \"unit\": \"degrees\"\n            }\n          },\n          \"lastUpdate\": 1199192940\n        },\n        {\n          \"channels\": {\n            \"latitude\": {\n              \"current-value\": 50.818395,\n              \"unit\": \"degrees\"\n            },\n            \"longitude\": {\n              \"current-value\": 4.40313,\n              \"unit\": \"degrees\"\n            }\n          },\n          \"lastUpdate\": 1199192945\n        }\n    ]\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Store and Delete data",
+            "description": "",
+            "uriTemplate": "/{soId}/streams/{streamId}",
+            "model": {},
+            "parameters": [],
+            "actions": [
+              {
+                "name": "Push data to the platform",
+                "description": "Store (and process) new data associated to the stream `streamId` of the ServiceObject `soId`",
+                "method": "PUT",
+                "parameters": [
+                  {
+                    "name": "soId",
+                    "description": "`id` of the ServiceObject",
+                    "type": "hexadecimal",
+                    "required": true,
+                    "default": "",
+                    "example": "139221276359507f4059f607",
+                    "values": []
+                  },
+                  {
+                    "name": "streamId",
+                    "description": "`id` of the stream to be subscribed to",
+                    "type": "text",
+                    "required": true,
+                    "default": "",
+                    "example": "location",
+                    "values": []
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "{\n    \"channels\": {\n        \"latitude\": {\n            \"current-value\": 50.818395,\n            \"unit\": \"degrees\"\n        },\n        \"longitude\": {\n            \"current-value\": 4.40313,\n            \"unit\": \"degrees\"\n        }\n    },\n    \"lastUpdate\": 1199192940\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"channels\": {\n        \"latitude\": {\n            \"current-value\": 50.818395,\n            \"unit\": \"degrees\"\n        },\n        \"longitude\": {\n            \"current-value\": 4.40313,\n            \"unit\": \"degrees\"\n        }\n    },\n    \"lastUpdate\": 1199192940\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "202",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"status\": \"Data stored, accepted for dispatching\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"status\": \"Data stored, accepted for dispatching\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Delete all data stored for a Service Object stream",
+                "description": "Clear all data associated to the stream `streamId` of the ServiceObject `soId`",
+                "method": "DELETE",
+                "parameters": [
+                  {
+                    "name": "soId",
+                    "description": "`id` of the ServiceObject",
+                    "type": "hexadecimal",
+                    "required": true,
+                    "default": "",
+                    "example": "139221276359507f4059f607",
+                    "values": []
+                  },
+                  {
+                    "name": "streamId",
+                    "description": "`id` of the stream to be subscribed to",
+                    "type": "text",
+                    "required": true,
+                    "default": "",
+                    "example": "location",
+                    "values": []
+                  }
+                ],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "element": "category",
+        "attributes": {
+          "name": "External Subscriptions"
+        },
+        "content": [
+          {
+            "element": "resource",
+            "name": "List all subscriptions",
+            "description": "Operations on the subscriptions owned by a user",
+            "uriTemplate": "/{soId}/streams/{streamId}/subscriptions",
+            "model": {},
+            "parameters": [
+              {
+                "name": "soId",
+                "description": "`id` of the ServiceObject",
+                "type": "hexadecimal",
+                "required": true,
+                "default": "",
+                "example": "139221276359507f4059f607",
+                "values": []
+              },
+              {
+                "name": "streamId",
+                "description": "`id` of the stream to be subscribed to",
+                "type": "text",
+                "required": true,
+                "default": "",
+                "example": "location",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Get all subscriptions",
+                "description": "Get all the subscriptions created by a user",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"subscriptions\": [\n        {\n            \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n            \"createdAt\": 1392214219117,\n            \"updatedAt\": 1392214219117,\n            \"callback\": \"http\",\n            \"source\": \"139221276359507f4059f607a4a16b9583b4a169e4937\",\n            \"destination\": \"http://192.168.1.11:5000/update/@latitude@/@longitude@\",\n            \"stream\": \"location\",\n            \"customFields\": {\n                \"aliases\": [\n                    { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n                    {\"@latitude@\": \"##latitude!!\"}, \n                    {\"@longitude@\": \"##longitude!!\"} \n                ],\n                \"method\": \"GET\"\n            }\n        }\n    ]\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"subscriptions\": [\n        {\n            \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n            \"createdAt\": 1392214219117,\n            \"updatedAt\": 1392214219117,\n            \"callback\": \"http\",\n            \"source\": \"139221276359507f4059f607a4a16b9583b4a169e4937\",\n            \"destination\": \"http://192.168.1.11:5000/update/@latitude@/@longitude@\",\n            \"stream\": \"location\",\n            \"customFields\": {\n                \"aliases\": [\n                    { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n                    {\"@latitude@\": \"##latitude!!\"}, \n                    {\"@longitude@\": \"##longitude!!\"} \n                ],\n                \"method\": \"GET\"\n            }\n        }\n    ]\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Create a new subscription",
+                "description": "Creates a new external subscription for the stream `streamId` of the ServiceObject `soId`.\n\nPossible callbacks are:\n\n'http': For external HTTP endpoints\n    'pubsub': For COMPOSE Pub/Sub notifications using either MQTT, STOMP/TCP or STOMP/WS\n\nVerifies that:\n\n1. Exists callback field in body request\n    2. Exists destination field in body request\n\n`customFields` can be used to introduce user-defined data, and also to define `aliases` that will replaced in the `destination` field with the corresponding values.",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "{\n    \"callback\":\"http\", \n    \"destination\":\"http://www.webserver.com/update/@latitude@/@longitude@\", \n    \"customFields\": { \n        \"aliases\": [ \n            { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n            {\"@latitude@\": \"##latitude!!\"}, \n            {\"@longitude@\": \"##longitude!!\"} \n        ], \n        \"method\":\"GET\" \n    } \n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"callback\":\"http\", \n    \"destination\":\"http://www.webserver.com/update/@latitude@/@longitude@\", \n    \"customFields\": { \n        \"aliases\": [ \n            { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n            {\"@latitude@\": \"##latitude!!\"}, \n            {\"@longitude@\": \"##longitude!!\"} \n        ], \n        \"method\":\"GET\" \n    } \n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "201",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n  \"createdAt\": 1392214219117\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n  \"createdAt\": 1392214219117\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Management",
+            "description": "Management of individual subscriptions that already exist",
+            "uriTemplate": "/subscriptions/{subscriptionId}",
+            "model": {},
+            "parameters": [
+              {
+                "name": "subscriptionId",
+                "description": "`id` of the subscription",
+                "type": "hexadecimal",
+                "required": false,
+                "default": "",
+                "example": "139221276359507f4059f607",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Update an existing subscription",
+                "description": "Replace the subscription document with a new one. Removes the previous one.",
+                "method": "PUT",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "{\n    \"callback\":\"http\", \n    \"destination\":\"http://www.webserver.com/update/@latitude@/@longitude@\", \n    \"customFields\": { \n        \"aliases\": [ \n            { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n            {\"@latitude@\": \"##latitude!!\"}, \n            {\"@longitude@\": \"##longitude!!\"} \n        ], \n        \"method\":\"GET\" \n    } \n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"callback\":\"http\", \n    \"destination\":\"http://www.webserver.com/update/@latitude@/@longitude@\", \n    \"customFields\": { \n        \"aliases\": [ \n            { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n            {\"@latitude@\": \"##latitude!!\"}, \n            {\"@longitude@\": \"##longitude!!\"} \n        ], \n        \"method\":\"GET\" \n    } \n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n  \"updatedAt\": 1392214219117\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n  \"updatedAt\": 1392214219117\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Delete an existing subscription",
+                "description": "Delete the subscription document",
+                "method": "DELETE",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "204",
+                        "description": "",
+                        "headers": [],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Get an existing subscription",
+                "description": "Retrieve the subscription document",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n    \"subscriptions\": [\n        {\n            \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n            \"createdAt\": 1392214219117,\n            \"updatedAt\": 1392214219117,\n            \"callback\": \"http\",\n            \"source\": \"139221276359507f4059f607a4a16b9583b4a169e4937\",\n            \"destination\": \"http://192.168.1.11:5000/update/@latitude@/@longitude@\",\n            \"stream\": \"location\",\n            \"customFields\": {\n                \"aliases\": [\n                    { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n                    {\"@latitude@\": \"##latitude!!\"}, \n                    {\"@longitude@\": \"##longitude!!\"} \n                ],\n                \"method\": \"GET\"\n            }\n        }\n    ]\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"subscriptions\": [\n        {\n            \"id\": \"1392214219117390439ca88664838a3321421c48a62e5\",\n            \"createdAt\": 1392214219117,\n            \"updatedAt\": 1392214219117,\n            \"callback\": \"http\",\n            \"source\": \"139221276359507f4059f607a4a16b9583b4a169e4937\",\n            \"destination\": \"http://192.168.1.11:5000/update/@latitude@/@longitude@\",\n            \"stream\": \"location\",\n            \"customFields\": {\n                \"aliases\": [\n                    { \"##\": \"{$.channels.\", \"!!\": \".current-value}\" }, \n                    {\"@latitude@\": \"##latitude!!\"}, \n                    {\"@longitude@\": \"##longitude!!\"} \n                ],\n                \"method\": \"GET\"\n            }\n        }\n    ]\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}              \n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}              \n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "element": "category",
+        "attributes": {
+          "name": "Actuations"
+        },
+        "content": [
+          {
+            "element": "resource",
+            "name": "Actuations that can be invoked in a ServiceObject",
+            "description": "Get all actuations that can be invoked in a ServiceObject",
+            "uriTemplate": "/{soId}/actuations",
+            "model": {},
+            "parameters": [
+              {
+                "name": "soId",
+                "description": "`id` of the ServiceObject",
+                "type": "hexadecimal",
+                "required": true,
+                "default": "",
+                "example": "139221276359507f4059f607",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Get list of actuations that can be invoked",
+                "description": "",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [],
+                        "body": "{  \n    \"actions\": [\n        {\n            \"name\": \"reboot-all\",\n            \"description\": \"Reboots the devices in the group\"\n        },\n        {\n            \"name\": \"shutdown-all\",\n            \"description\": \"Shutdowns the devices in the group\"\n        }\n\n       ]\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n    \"actions\": [\n        {\n            \"name\": \"reboot-all\",\n            \"description\": \"Reboots the devices in the group\"\n        },\n        {\n            \"name\": \"shutdown-all\",\n            \"description\": \"Shutdowns the devices in the group\"\n        }\n\n       ]\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Initiating actuations in a ServiceObject",
+            "description": "Launch an acuation on a device",
+            "uriTemplate": "/{soId}/actuations/{actuationName}",
+            "model": {},
+            "parameters": [
+              {
+                "name": "soId",
+                "description": "`id` of the ServiceObject",
+                "type": "hexadecimal",
+                "required": true,
+                "default": "",
+                "example": "139221276359507f4059f607",
+                "values": []
+              },
+              {
+                "name": "actuationName",
+                "description": "`name` of the actuation to invoke (only used for POST)",
+                "type": "string",
+                "required": false,
+                "default": "",
+                "example": "reboot-all",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Initiate an actuation",
+                "description": "",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "202",
+                        "description": "",
+                        "headers": [],
+                        "body": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"createdAt\": 1392214219117\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"createdAt\": 1392214219117\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          },
+          {
+            "element": "resource",
+            "name": "Management of initiated actuations",
+            "description": "",
+            "uriTemplate": "/actuations/{actuationId}",
+            "model": {},
+            "parameters": [
+              {
+                "name": "actuationId",
+                "description": "`id` of the actuation",
+                "type": "hexadecimal",
+                "required": true,
+                "default": "",
+                "example": "1392214219117390439c",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Get an actuation status",
+                "description": "",
+                "method": "GET",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [],
+                        "body": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"completed\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"completed\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}    \n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}    \n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Update an actuation status",
+                "description": "",
+                "method": "PUT",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "New status String\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "New status String\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [],
+                        "body": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"completed\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"completed\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Cancel a launched action",
+                "description": "**NOT IMPLEMENTED**",
+                "method": "DELETE",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "",
+                        "schema": "",
+                        "content": []
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [],
+                        "body": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"cancelled\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"cancelled\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "405",
+                        "description": "",
+                        "headers": [],
+                        "body": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"can not be cancelled\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{  \n    \"id\": \"139221276359507f4059f17\",\n    \"status\": \"can not be cancelled\"\n}\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}        \n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      },
+      {
+        "element": "category",
+        "attributes": {
+          "name": "Data Queries"
+        },
+        "content": [
+          {
+            "element": "resource",
+            "name": "Queries on the data of a single Service Object",
+            "description": "Types of queries supported:\n\n**geodistance**: Search for Updates within a given distance of a given coordinate. Incompatible with `GeoBoundingBox`. *Requires* a `location` channel (in **GeoJson** format) to exist, which will be used to keep the location of the sensor updates.\n\nExample payload:\n\n{\n        \"geodistance\": true,\n        \"geodistancevalue\": 300,\n        \"pointlat\": 43.15,\n        \"pointlon\": 15.43,\n        \"geodistanceunit\": \"km\"\n    }\n\n**geoboundingbox**: Search for Updates within a geo fence. Incompatible with `GeoDistance`. *Requires* a `location` channel (in **GeoJson** format) to exist, which will be used to keep the location of the sensor updates.\n\nExample payload:\n\n{\n        \"geoboundingbox\": true,\n        \"geoboxupperleftlat\": 15.43,\n        \"geoboxupperleftlat\": 43.15,\n        \"geoboxbottomrightlat\": 47.15,\n        \"geoboxbottomrightlon\": 15.47\n    }\n\n**timerange**: Search for Updates with a `lastUpdate` field value within a range of timestamps.\n\nExample payloads:\n\n{\n        \"timerange\": true,\n        \"rangefrom\": 1396859660,\n        \"rangeto\": 1396859760\n    }    \n \n    {\n        \"timerange\": true,\n        \"rangeto\": 1396859760\n    }    \n\n    {\n        \"timerange\": true,\n        \"rangefrom\": 1396859660,\n    }\n\n**numericrange**: Search for Updates with a given field value within a range of values.\n\nExample payloads:\n\n{\n        \"numericrange\": true,\n        \"rangefrom\": 13,\n        \"rangeto\": 17,\n        \"numericrangefield\": \"channels.age.current-value\"\n    }\n\n    {\n        \"numericrange\": true,\n        \"rangefrom\": 13,\n        \"numericrangefield\": \"channels.age.current-value\"\n    }\n\n    {\n        \"numericrange\": true,\n        \"rangeto\": 17,\n        \"numericrangefield\": \"channels.age.current-value\"\n    }\n\n**match**: Search for Updates that match in any of its fields with the terms listed (any of them)\n\nExample payloads:\n\n{\n        \"match\": true,\n        \"matchfield\": \"channels.name.current-value\",\n        \"matchstring\": \"Peter John\",\n    }\n\nExample of complex query that restricts:\n\n* Field `channels.age.current-value` between 13 and 17\n\n* `lastUpdate` of the items above 1396859660\n\n* Containing the terms \"John\" or \"Peter\" in the field `channels.name.current-value`\n\n* Located within a GeoFenc\n\nCorresponding payload:\n\n{\n        \"numericrange\": true,\n        \"rangefrom\": 13,\n        \"rangeto\": 17,\n        \"numericrangefield\": \"channels.age.current-value\",\n        \n        \"timerange\": true,\n        \"rangefrom\": 1396859660,\n        \n        \"match\": true,\n        \"matchfield\": \"channels.name.current-value\",\n        \"matchstring\": \"Peter John\",\n        \n        \"geoboundingbox\": true,\n        \"geoboxupperleftlat\": 15.43,\n        \"geoboxupperleftlat\": 43.15,\n        \"geoboxbottomrightlat\": 47.15,\n        \"geoboxbottomrightlon\": 15.47\n    }",
+            "uriTemplate": "/{soId}/streams/{streamId}/search",
+            "model": {},
+            "parameters": [
+              {
+                "name": "soId",
+                "description": "`id` of the ServiceObject",
+                "type": "hexadecimal",
+                "required": true,
+                "default": "",
+                "example": "139221276359507f4059f607",
+                "values": []
+              },
+              {
+                "name": "streamId",
+                "description": "`id` of the stream to be subscribed to",
+                "type": "text",
+                "required": true,
+                "default": "",
+                "example": "location",
+                "values": []
+              }
+            ],
+            "actions": [
+              {
+                "name": "Query data",
+                "description": "Query data associated to a given Service Object",
+                "method": "POST",
+                "parameters": [],
+                "attributes": {
+                  "relation": "",
+                  "uriTemplate": ""
+                },
+                "content": [],
+                "examples": [
+                  {
+                    "name": "",
+                    "description": "",
+                    "requests": [
+                      {
+                        "name": "",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "name": "Authorization",
+                            "value": "21276359507f4059f607"
+                          }
+                        ],
+                        "body": "{\n    \"geodistance\": true,\n    \"geodistancevalue\": 300,\n    \"pointlat\": 43.15,\n    \"pointlon\": 15.43,\n    \"geodistanceunit\": \"km\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n    \"geodistance\": true,\n    \"geodistancevalue\": 300,\n    \"pointlat\": 43.15,\n    \"pointlon\": 15.43,\n    \"geodistanceunit\": \"km\"\n}\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "responses": [
+                      {
+                        "name": "200",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "    {\n        \"channels\": {\n            \"location\": {\n                \"current-value\": [43.15,15.44],\n                \"unit\": \"degrees\"\n            }\n        },\n        \"lastUpdate\": 1199192940\n    }\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "    {\n        \"channels\": {\n            \"location\": {\n                \"current-value\": [43.15,15.44],\n                \"unit\": \"degrees\"\n            }\n        },\n        \"lastUpdate\": 1199192940\n    }\n"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "403",
+                        "description": "",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n",
+                        "schema": "",
+                        "content": [
+                          {
+                            "element": "asset",
+                            "attributes": {
+                              "role": "bodyExample"
+                            },
+                            "content": "{\n  \"status\" : 403,\n  \"message\" : \"Access was denied!\",\n  \"info\" : \"api.servioticy.com\"\n}\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "content": []
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "code": 0,
+    "message": "",
+    "location": []
+  },
+  "warnings": []
+}

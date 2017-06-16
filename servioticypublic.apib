@@ -1,0 +1,988 @@
+FORMAT: 1A
+HOST: http://api.servioticy.com
+
+# servIoTicy
+The **servIoTicy API** is a generic service for managing and processing IoT data streams.
+
+This document describes the ServiceObject related resources of the servIoTicy API that are publicly available.
+
+The `ServiceObject` definition document (JSON) has the following attributes
+    
+    `name`: The name of the ServiceObject
+    `description`: Textual description of the ServiceObject
+    `streams`: List of streams associated to the ServiceObject
+    `customFields`: Array of user-defined properties
+    `actions`: Array of actuations than can be invoked for the ServiceObject
+    `properties`: Array of properties that enrich the description of the ServiceObject
+
+For each `stream`, the definition document describes:
+    
+    A name for the stream (`location` in the example)
+    `channels`: A series of channels for the `stream` (`latitude` and `longitude` in the example)
+    `description`: Textual description of the `stream`
+    `type`: Type of device associated to this `stream`
+    
+For each `channel`, the definition document describes:
+
+    A name for the channel (`latitude` and `longitude` in the example)
+    `type`: Data type associated to this channel (may be `number`, `string`, `boolean` or `geo_point`)
+    `unit`: What units are associated to the data generated for this channel
+
+
+# Group ServiceObject LifeCycle
+## Creating and Destroying Service Objects [/]
+Creating new ServiceObjects and Retrieving all ServiceObjects associated to **one user**.
+
+**Important note about data privacy**: The **public** field in the data model indicates if the data associated to this Service Object is private (only accessible to the Service Object owner) or if it is public
+and freely accessible to anybody. By default, if no **public** field is provided, data is private.
+
+
+
+### Deploy a new ServiceObject [POST]
+Create a new ServiceObject definition and register it in the repository. The **unique** ServiceObject id (`soId`) is returned on success.
+
++ Request (application/json)
+        
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+    
+    + Body
+    
+            {  
+               "name": "Phone", 
+               "description": "COMPOSE phone", 
+               "URL": "Web Object URL ",
+               "public":"true",
+               "streams": {
+                     "location": {
+                        "channels": {
+                            "latitude": {
+                                "type": "number",
+                                "unit": "degrees"
+                            },
+                            "longitude": {
+                                "type": "number",
+                                "unit": "degrees"
+                            }
+                        },
+                        "description": "GPS outdoor location",
+                        "type": "sensor"
+                    }
+                },
+                "customFields": {},
+                "actions": [],
+                "properties": []
+            }
+
+
++ Response 201 (application/json)
+
+        { 
+          "id": "139221276359507f4059f607a4a16b9583b4a169e4937", 
+          "createdAt": 1392214220313
+        }
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }
+
+
+
+### Get all the ServiceObjects from a user [GET]
+Retrieve all the Service Objects from a given user (identified by the `Authorization` header).
+
++ Request 
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+    
+
+
++ Response 200 (application/json)
+
+        [
+            "139221276359507f4059f607a4a16b9583b4a169e4937"
+        ]
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }
+
+
+# Group ServiceObject Definition
+## Retrieving and Updating the ServiceObject Definition  [/{soId}]
+### Retrieve the ServiceObject description [GET]
+Retrieve the description of a Service Object
+
+
+    
++ Parameters
+    + soId (required, hexadecimal, `139221276359507f4059f607`) ... `id` of the ServiceObject
+
++ Request
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+    
+
++ Response 200 (application/json)
+
+        {
+            "id": "139221276359507f4059f607a4a16b9583b4a169e4937",
+            "name": "Phone",
+            "description": "COMPOSE phone",
+            "URL": "Web Object URL ",
+            "public":"true",
+            "streams": {
+                "location": {
+                    "channels": {
+                        "latitude": {
+                            "type": "number",
+                            "unit": "degrees"
+                        },
+                        "longitude": {
+                            "type": "number",
+                            "unit": "degrees"
+                        }
+                    },
+                    "description": "GPS outdoor location",
+                    "type": "sensor"
+                }
+            },
+            "customFields": {},
+            "actions": [],
+            "properties": []
+        }
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }
+
+### Update ServiceObject description [PUT]
+
+Update the description of a Service Object. Only the following fields can be updated, **other information is ignored**:
+    
+    `customFields`: Array of user-defined properties
+
+
++ Parameters
+    + soId (required, hexadecimal, `139221276359507f4059f607`) ... `id` of the ServiceObject
+
++ Request (application/json)
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+
+    + Body
+    
+            {  
+               "name": "Phone", 
+               "description": "COMPOSE phone", 
+               "URL": "Web Object URL ",
+                "streams": {
+                     "location": {
+                        "channels": {
+                            "latitude": {
+                                "type": "number",
+                                "unit": "degrees"
+                            },
+                            "longitude": {
+                                "type": "number",
+                                "unit": "degrees"
+                            }
+                        },
+                        "description": "GPS outdoor location",
+                        "type": "sensor",
+                    }
+                },
+                "customFields": {},
+                "actions": [],
+                "properties": [],
+            }
+
+
++ Response 200 (application/json)
+
+        { 
+          "id": "139221276359507f4059f607a4a16b9583b4a169e4937", 
+          "updatedAt": 1392214220313
+        }
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }
+
+
+### Delete the ServiceObject description [DELETE]
+Delete the description of a Service Object, and all associated data
+
+**IMPORTANT: Implies that all data is removed, that all the subscriptions where this SO was referenced are removed**
+
+
++ Parameters
+    + soId (required, hexadecimal, `139221276359507f4059f607`) ... `id` of the ServiceObject
+
++ Request
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+    
+
++ Response 204 ()
+
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }
+
+## Retrieving ServiceObject Streams [/{soId}/streams]
+
++ Parameters
+    + soId (required, hexadecimal, `139221276359507f4059f607`) ... `id` of the ServiceObject
+
+
+### Retieve the description of the ServiceObject streams [GET]
+Retieve the description of the streams field in the ServiceObject definition document
+
++ Request
+
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+    
+
++ Response 200 (application/json)
+
+         {
+            "streams": [
+                {
+                    "name": "location",
+                    "channels": {
+                        "latitude": {
+                            "type": "Number",
+                            "unit": "degrees"
+                        },
+                        "longitude": {
+                            "type": "Number",
+                            "unit": "degrees"
+                        }
+                    },
+                    "description": "GPS outdoor location",
+                    "type": "sensor",
+                    "subscriptions": [
+                        "1392214219117390439ca88664838a3321421c48a62e5"
+                    ]
+                }
+            ]
+        }
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }
+
++ Response 204 
+
+        
+
+# Group Data operations
+## Retrieve Data [/{soId}/streams/{streamId}/{timeModifier}]
+
+
+### Get Data stored for the ServiceObject  [GET]
+Retrieve data stored in the platform that is associated to one particular stream (`streamId`) of the ServiceObject with id `soId`. 
+Options are:
+
+    Retrieve all data stored (no `timeModifier` provided)
+    Retrieve all data stored that was generated after a provided timeStamp (a timeStamp is provided as `timeModifier`)
+    Retrieve only the latest sensor updated associated to the given stream (`timeModifier` takes value `lastUpdate`)
+
++ Parameters
+    + soId (required, hexadecimal, `139221276359507f4059f607`) ... `id` of the ServiceObject
+    + streamId (required, text, `location`) ... `id` of the stream to be subscribed to
+    + timeModifier (optional, text) ... If `lastUpdate` modifier is provided, only the latest sensor update will be returned. If a particular 
+      timestamp is provided, all data **since** that timestamp will be sent. Otherwise all existing data will be sent in the response. 
+
+        + Values
+            
+            + `lastUpdate`
+            + `1199192940 (option not yet implemented)`
+
+
++ Request
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+    
+    
+
++ Response 200 (application/json)
+
+        {
+            "data": [
+                { 
+                 "channels": {
+                    "latitude": {
+                      "current-value": 50.818395,
+                      "unit": "degrees"
+                    },
+                    "longitude": {
+                      "current-value": 4.40313,
+                      "unit": "degrees"
+                    }
+                  },
+                  "lastUpdate": 1199192940
+                },
+                {
+                  "channels": {
+                    "latitude": {
+                      "current-value": 50.818395,
+                      "unit": "degrees"
+                    },
+                    "longitude": {
+                      "current-value": 4.40313,
+                      "unit": "degrees"
+                    }
+                  },
+                  "lastUpdate": 1199192945
+                }
+            ]
+        }
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }
+
+
+## Store and Delete data [/{soId}/streams/{streamId}]
+
+### Push data to the platform [PUT]
+Store (and process) new data associated to the stream `streamId` of the ServiceObject `soId`
+
++ Parameters
+    + soId (required, hexadecimal, `139221276359507f4059f607`) ... `id` of the ServiceObject
+    + streamId (required, text, `location`) ... `id` of the stream to be subscribed to
+
+
++ Request (application/json)
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+
+    + Body
+    
+            {
+                "channels": {
+                    "latitude": {
+                        "current-value": 50.818395,
+                        "unit": "degrees"
+                    },
+                    "longitude": {
+                        "current-value": 4.40313,
+                        "unit": "degrees"
+                    }
+                },
+                "lastUpdate": 1199192940
+            }
+
++ Response 202 (application/json)
+
+        {
+            "status": "Data stored, accepted for dispatching"
+        }
+
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }
+        
+        
+### Delete all data stored for a Service Object stream [DELETE]
+Clear all data associated to the stream `streamId` of the ServiceObject `soId`
+
++ Parameters
+    + soId (required, hexadecimal, `139221276359507f4059f607`) ... `id` of the ServiceObject
+    + streamId (required, text, `location`) ... `id` of the stream to be subscribed to
+
+
++ Request ()
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+
+
++ Response 204 
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }
+        
+
+# Group External Subscriptions
+
+## List all subscriptions [/{soId}/streams/{streamId}/subscriptions]
+Operations on the subscriptions owned by a user
+
++ Parameters
+    + soId (required, hexadecimal, `139221276359507f4059f607`) ... `id` of the ServiceObject
+    + streamId (required, text, `location`) ... `id` of the stream to be subscribed to
+
+### Get all subscriptions [GET]
+Get all the subscriptions created by a user
+
++ Request
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+
++ Response 200 (application/json)
+
+        {
+            "subscriptions": [
+                {
+                    "id": "1392214219117390439ca88664838a3321421c48a62e5",
+                    "createdAt": 1392214219117,
+                    "updatedAt": 1392214219117,
+                    "callback": "http",
+                    "source": "139221276359507f4059f607a4a16b9583b4a169e4937",
+                    "destination": "http://192.168.1.11:5000/update/@latitude@/@longitude@",
+                    "stream": "location",
+                    "customFields": {
+                        "aliases": [
+                            { "##": "{$.channels.", "!!": ".current-value}" }, 
+                            {"@latitude@": "##latitude!!"}, 
+                            {"@longitude@": "##longitude!!"} 
+                        ],
+                        "method": "GET"
+                    }
+                }
+            ]
+        }
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }        
+        
+        
+### Create a new subscription [POST]
+Creates a new external subscription for the stream `streamId` of the ServiceObject `soId`. 
+
+Possible callbacks are:
+
+    'http': For external HTTP endpoints
+    'pubsub': For COMPOSE Pub/Sub notifications using either MQTT, STOMP/TCP or STOMP/WS
+
+Verifies that:
+
+    1. Exists callback field in body request
+    2. Exists destination field in body request
+
+
+`customFields` can be used to introduce user-defined data, and also to define `aliases` that will replaced in the `destination` field with the corresponding values.
+
++ Request (application/json)
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+
+    + Body
+    
+            {
+                "callback":"http", 
+                "destination":"http://www.webserver.com/update/@latitude@/@longitude@", 
+                "customFields": { 
+                    "aliases": [ 
+                        { "##": "{$.channels.", "!!": ".current-value}" }, 
+                        {"@latitude@": "##latitude!!"}, 
+                        {"@longitude@": "##longitude!!"} 
+                    ], 
+                    "method":"GET" 
+                } 
+            }
+            
++ Response 201 (application/json)
+
+        {
+          "id": "1392214219117390439ca88664838a3321421c48a62e5",
+          "createdAt": 1392214219117
+        }
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }
+
+
+
+## Management [/subscriptions/{subscriptionId}]
+Management of individual subscriptions that already exist
+
++ Parameters
+    + subscriptionId (optional, hexadecimal, `139221276359507f4059f607`) ... `id` of the subscription
+
+
+### Update an existing subscription [PUT]
+Replace the subscription document with a new one. Removes the previous one.
+
++ Request (application/json)
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+
+    + Body
+    
+            {
+                "callback":"http", 
+                "destination":"http://www.webserver.com/update/@latitude@/@longitude@", 
+                "customFields": { 
+                    "aliases": [ 
+                        { "##": "{$.channels.", "!!": ".current-value}" }, 
+                        {"@latitude@": "##latitude!!"}, 
+                        {"@longitude@": "##longitude!!"} 
+                    ], 
+                    "method":"GET" 
+                } 
+            }
+
++ Response 200 (application/json)
+
+        {
+          "id": "1392214219117390439ca88664838a3321421c48a62e5",
+          "updatedAt": 1392214219117
+        }
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }
+
+
+### Delete an existing subscription [DELETE]
+Delete the subscription document
+
++ Request
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+
+
++ Response 204 
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }        
+        
+### Get an existing subscription [GET]
+Retrieve the subscription document
+
++ Request
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+
++ Response 200 (application/json)
+
+        {
+            "subscriptions": [
+                {
+                    "id": "1392214219117390439ca88664838a3321421c48a62e5",
+                    "createdAt": 1392214219117,
+                    "updatedAt": 1392214219117,
+                    "callback": "http",
+                    "source": "139221276359507f4059f607a4a16b9583b4a169e4937",
+                    "destination": "http://192.168.1.11:5000/update/@latitude@/@longitude@",
+                    "stream": "location",
+                    "customFields": {
+                        "aliases": [
+                            { "##": "{$.channels.", "!!": ".current-value}" }, 
+                            {"@latitude@": "##latitude!!"}, 
+                            {"@longitude@": "##longitude!!"} 
+                        ],
+                        "method": "GET"
+                    }
+                }
+            ]
+        }
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }              
+        
+        
+
+
+# Group Actuations  
+## Actuations that can be invoked in a ServiceObject [/{soId}/actuations]
+Get all actuations that can be invoked in a ServiceObject
+
++ Parameters
+    + soId (required, hexadecimal, `139221276359507f4059f607`) ... `id` of the ServiceObject
+
+
+### Get list of actuations that can be invoked [GET]
+
++ Request
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+
++ Response 200
+
+        {  
+            "actions": [
+                {
+                    "name": "reboot-all",
+                    "description": "Reboots the devices in the group"
+                },
+                {
+                    "name": "shutdown-all",
+                    "description": "Shutdowns the devices in the group"
+                }
+          
+               ]
+        }
+        
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }        
+
+
+## Initiating actuations in a ServiceObject [/{soId}/actuations/{actuationName}]
+Launch an acuation on a device
+
++ Parameters
+    + soId (required, hexadecimal, `139221276359507f4059f607`) ... `id` of the ServiceObject
+    + actuationName (optional, string, `reboot-all`) ... `name` of the actuation to invoke (only used for POST)
+
+### Initiate an actuation [POST]
+
++ Request
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+
++ Response 202
+
+        {  
+            "id": "139221276359507f4059f17",
+            "createdAt": 1392214219117
+        }
+        
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }
+
+## Management of initiated actuations [/actuations/{actuationId}]
+
++ Parameters
+    + actuationId (required, hexadecimal, `1392214219117390439c`) ... `id` of the actuation
+
+
+### Get an actuation status [GET]
+
++ Request
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+
++ Response 200
+
+        {  
+            "id": "139221276359507f4059f17",
+            "status": "completed"
+        }
+        
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }    
+        
+        
+### Update an actuation status [PUT]
+
++ Request
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+    
+    + Body 
+        
+            New status String
+
++ Response 200
+
+        {  
+            "id": "139221276359507f4059f17",
+            "status": "completed"
+        }
+        
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }        
+        
+### Cancel a launched action [DELETE]
+**NOT IMPLEMENTED**
+
++ Request
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+
++ Response 200
+
+        {  
+            "id": "139221276359507f4059f17",
+            "status": "cancelled"
+        }
+
++ Response 405
+
+        {  
+            "id": "139221276359507f4059f17",
+            "status": "can not be cancelled"
+        }
+        
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }        
+        
+        
+# Group Data Queries
+## Queries on the data of a single Service Object [/{soId}/streams/{streamId}/search]
+Types of queries supported:
+
+**geodistance**: Search for Updates within a given distance of a given coordinate. Incompatible with `GeoBoundingBox`. *Requires* a `location` channel (in **GeoJson** format) to exist, which will be used to keep the location of the sensor updates.
+
+Example payload:
+
+    {
+        "geodistance": true,
+        "geodistancevalue": 300,
+        "pointlat": 43.15,
+        "pointlon": 15.43,
+        "geodistanceunit": "km"
+    }
+
+
+
+**geoboundingbox**: Search for Updates within a geo fence. Incompatible with `GeoDistance`. *Requires* a `location` channel (in **GeoJson** format) to exist, which will be used to keep the location of the sensor updates.
+
+Example payload:
+
+    {
+        "geoboundingbox": true,
+        "geoboxupperleftlat": 15.43,
+        "geoboxupperleftlat": 43.15,
+        "geoboxbottomrightlat": 47.15,
+        "geoboxbottomrightlon": 15.47
+    }    
+
+**timerange**: Search for Updates with a `lastUpdate` field value within a range of timestamps.
+
+Example payloads:
+
+    {
+        "timerange": true,
+        "rangefrom": 1396859660,
+        "rangeto": 1396859760
+    }    
+ 
+    {
+        "timerange": true,
+        "rangeto": 1396859760
+    }    
+
+    {
+        "timerange": true,
+        "rangefrom": 1396859660,
+    }    
+
+**numericrange**: Search for Updates with a given field value within a range of values.
+
+Example payloads:
+
+    {
+        "numericrange": true,
+        "rangefrom": 13,
+        "rangeto": 17,
+        "numericrangefield": "channels.age.current-value"
+    }
+
+    {
+        "numericrange": true,
+        "rangefrom": 13,
+        "numericrangefield": "channels.age.current-value"
+    }
+
+    {
+        "numericrange": true,
+        "rangeto": 17,
+        "numericrangefield": "channels.age.current-value"
+    }
+
+
+
+**match**: Search for Updates that match in any of its fields with the terms listed (any of them)
+
+Example payloads:
+    
+    {
+        "match": true,
+        "matchfield": "channels.name.current-value",
+        "matchstring": "Peter John",
+    }
+
+
+Example of complex query that restricts:
+
+* Field `channels.age.current-value` between 13 and 17
+* `lastUpdate` of the items above 1396859660
+* Containing the terms "John" or "Peter" in the field `channels.name.current-value`
+* Located within a GeoFenc 
+
+Corresponding payload:
+
+    {
+        "numericrange": true,
+        "rangefrom": 13,
+        "rangeto": 17,
+        "numericrangefield": "channels.age.current-value",
+        
+        "timerange": true,
+        "rangefrom": 1396859660,
+        
+        "match": true,
+        "matchfield": "channels.name.current-value",
+        "matchstring": "Peter John",
+        
+        "geoboundingbox": true,
+        "geoboxupperleftlat": 15.43,
+        "geoboxupperleftlat": 43.15,
+        "geoboxbottomrightlat": 47.15,
+        "geoboxbottomrightlon": 15.47
+    }
+    
+
++ Parameters
+    + soId (required, hexadecimal, `139221276359507f4059f607`) ... `id` of the ServiceObject
+    + streamId (required, text, `location`) ... `id` of the stream to be subscribed to
+
+
+
+### Query data [POST]
+Query data associated to a given Service Object
+
++ Request (application/json)
+        
+    + Headers
+    
+            Authorization: 21276359507f4059f607
+    
+    + Body
+    
+            {
+                "geodistance": true,
+                "geodistancevalue": 300,
+                "pointlat": 43.15,
+                "pointlon": 15.43,
+                "geodistanceunit": "km"
+            }
+
+
+
++ Response 200 (application/json)
+
+            {
+                "channels": {
+                    "location": {
+                        "current-value": [43.15,15.44],
+                        "unit": "degrees"
+                    }
+                },
+                "lastUpdate": 1199192940
+            }
+
++ Response 403 (application/json)
+
+        {
+          "status" : 403,
+          "message" : "Access was denied!",
+          "info" : "api.servioticy.com"
+        }
+
+
+
