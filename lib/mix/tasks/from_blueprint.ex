@@ -5,7 +5,9 @@ defmodule Mix.Tasks.Prex.Gen.FromBlueprint do
 
   use Mix.Task
 
-  @shortdoc "Create interface of API based on blueprint json"
+  @shortdoc "Create modules for API based on ApiBlueprint"
+
+  @bljson_filename ".prex.api.json"
 
   def run([filename, api_name]) do
     {current_dir, _} = System.cmd "pwd", []
@@ -20,26 +22,30 @@ defmodule Mix.Tasks.Prex.Gen.FromBlueprint do
 
     if full_name |> String.downcase |> String.ends_with?(".apib") do
       {data, _} = System.cmd("drafter", ["-t" ,"ast", "-f", "json", full_name])
-      File.rm "api.json"
-      File.write("api.json", data)
+      File.rm @bljson_filename
+      File.write(@bljson_filename, data)
     else
-      System.cmd("cp", ["#{full_name}", "api.json"])
+      System.cmd("cp", ["#{full_name}", @bljson_filename])
     end
 
-    file = Prex.AstFile.parse_file! "api.json"
+    file = Prex.AstFile.parse_file! @bljson_filename
     groups = Prex.AstFile.get_resource_groups file
     host = Prex.AstFile.get_host file
 
-    process_groups groups, api_name, host
+    :ok = process_groups groups, api_name, host
+
+    File.rm @bljson_filename
   end
 
   def run(_) do
-    IO.puts "mix prex.gen.from_blueprint [blueprint or json blueprint file] [a name for this api]"
+    IO.puts "mix prex.gen.from_blueprint [.apib or .json file] [api name]"
   end
 
   defp process_groups([gp | tail], api_name, base_url) do
      {:ok, filename, code} = Prex.generate_module(api_name ,gp, base_url)
      # File.open(filename, :write)
+
+     :ok = prepare_directory(filename)
 
      File.touch filename
      File.write filename, code
@@ -48,4 +54,24 @@ defmodule Mix.Tasks.Prex.Gen.FromBlueprint do
   end
 
   defp process_groups([], _, _), do: :ok
+
+  defp prepare_directory(full_name) when is_binary(full_name) do
+    dirs = String.split(full_name, "/")
+    dirs = Enum.take(dirs, Enum.count(dirs) - 1)
+
+    prepare_directory(dirs, "")
+  end
+
+  defp prepare_directory([dir | tail], parent) do
+    new_path = Path.join(parent, dir)
+    if !File.exists?(dir) do
+      new_path |> File.mkdir!
+    end
+    prepare_directory(tail, new_path)
+  end
+
+  defp prepare_directory([], _) do
+    :ok
+  end
+
 end
