@@ -64,7 +64,7 @@ defmodule Mix.Tasks.Prex.Gen.FromBlueprint do
 
   defp prepare_directory([dir | tail], parent) do
     new_path = Path.join(parent, dir)
-    if !File.exists?(dir) do
+    if !File.exists?(new_path) do
       new_path |> File.mkdir!
     end
     prepare_directory(tail, new_path)
