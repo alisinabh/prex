@@ -8,7 +8,7 @@ defmodule PrexTest do
   end
 
   setup_all _context do
-    [ast_file: Prex.AstFile.parse_file! "test.json"]
+    [ast_file: Prex.AstFile.parse_file! "test/test.json"]
   end
 
   test "get host name", context do
