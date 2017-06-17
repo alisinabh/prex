@@ -26,7 +26,7 @@ It can help you spend your time mostly on your issues instead of developing API 
 
 ```elixir
 def deps do
-  [{:prex, "~> 0.1.0", only: :dev, runtime: false}]
+  [{:prex, "~> 0.0.2", only: :dev, runtime: false}]
 end
 ```
 
