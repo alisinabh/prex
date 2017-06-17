@@ -26,7 +26,7 @@ It can help you spend your time mostly on your issues instead of developing API 
 
 ```elixir
 def deps do
-  [{:prex, "~> 0.1.0", only: [:dev]}]
+  [{:prex, "~> 0.1.0", only: :dev, runtime: false}]
 end
 ```
 
@@ -40,7 +40,7 @@ end
 defmodule MyApi.User do
   @moduledoc """
   Represents user details.
-  
+
   **User attributes:**
   - id `(Number)` : unique identifier.
   - fname `(String)` : First Name.
