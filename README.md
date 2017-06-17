@@ -1,5 +1,6 @@
 # Prex
 [![Status](https://img.shields.io/badge/status-under%20development-red.svg)]()
+[![Build Status](https://travis-ci.org/alisinabh/prex.svg?branch=master)](https://travis-ci.org/alisinabh/prex)
 
 Tasks for generating api interfaces in elixir from ApiBlueprint files.
 
@@ -29,9 +30,10 @@ def deps do
 end
 ```
 
-2. Run ``mix deps.get`` and ``mix deps.compile``
-3. Now you can run ``mix prex.gen.from_blueprint [path to .apib file] [name for api]``
-4. Tadaa! A file like this is now generated in lib directory of your project
+2. Install ``drafter``: [github.com/apiaryio/drafter](https://github.com/apiaryio/drafter#install)
+3. Run ``mix deps.get`` and ``mix deps.compile``
+4. Now you can run ``mix prex.gen.from_blueprint [path to .apib file] [name for api]``
+5. Tadaa! A file like this is now generated in lib directory of your project
 
 ```elixir
 # Created by Prex
