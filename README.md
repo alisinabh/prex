@@ -30,7 +30,7 @@ def deps do
 end
 ```
 
-2. Install ``drafter``: [github.com/apiaryio/drafter](https://github.com/apiaryio/drafter#install)
+2. Install ``drafter``(ApiBlueprint parser): [github.com/apiaryio/drafter](https://github.com/apiaryio/drafter#install)
 3. Run ``mix deps.get`` and ``mix deps.compile``
 4. Now you can run ``mix prex.gen.from_blueprint [path to .apib file] [name for api]``
 5. Tadaa! A file like this is now generated in lib directory of your project
