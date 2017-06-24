@@ -37,15 +37,23 @@ end
 
 ```elixir
 # Created by Prex
-defmodule MyApi.User do
+defmodule Newapi.User do
   @moduledoc """
   Represents user details.
 
+  ---
+
   **User attributes:**
+
   - id `(Number)` : unique identifier.
+
   - fname `(String)` : First Name.
+
   - lname `(String)` : Last Name.
+
   - email `(String)` : email id of the user.
+
+  ---
   """
 
   @base_url "http://sample.pandurangpatil.com"
@@ -64,8 +72,10 @@ defmodule MyApi.User do
     - limit: maximum number of records expected by client.
   """
   def list_all_users(since \\ nil, limit \\ nil) do
-    req_url = Path.join @base_url, "/users(?since,limit)"
-    HTTPotion.request(:get, req_url, body: Poison.encode!(%{ "since" => since, "limit" => limit}), headers: ["Content-Type": "application/json"])
+    req_url = Path.join @base_url, "/users?limit=#{limit |> URI.encode_www_form}" <>
+     (if since != nil, do: "since=#{since |> URI.encode_www_form}", else: "")
+
+    HTTPotion.request(:get, req_url, body: Poison.encode!(%{"since" => since, "limit" => limit}), headers: ["Content-Type": "application/json"])
   end
 
   def list_all_users!(since \\ nil, limit \\ nil) do
@@ -74,15 +84,68 @@ defmodule MyApi.User do
   end
 
   @doc """
-  Create a user
+
   """
   def create_a_user do
-    req_url = Path.join @base_url, "/users(?since,limit)"
+    req_url = Path.join @base_url, "/users{?since,limit}"
     HTTPotion.request(:put, req_url)
   end
 
   def create_a_user! do
     {:ok, result} = create_a_user()
+    result
+  end
+
+  # User
+
+  @doc """
+
+
+  ## Parameters
+    - id: Numeric `id` of the User to perform action with.
+  """
+  def retrieve_a_user(id) do
+    req_url = Path.join @base_url, "/users/?id=#{id |> URI.encode_www_form}"
+
+    HTTPotion.request(:get, req_url, body: Poison.encode!(%{"id" => id}), headers: ["Content-Type": "application/json"])
+  end
+
+  def retrieve_a_user!(id) do
+    {:ok, result} = retrieve_a_user(id)
+    result
+  end
+
+  @doc """
+  Update user details
+
+  ## Parameters
+    - id: Numeric `id` of the User to perform action with.
+  """
+  def update_a_user(id) do
+    req_url = Path.join @base_url, "/users/?id=#{id |> URI.encode_www_form}"
+
+    HTTPotion.request(:post, req_url, body: Poison.encode!(%{"id" => id}), headers: ["Content-Type": "application/json"])
+  end
+
+  def update_a_user!(id) do
+    {:ok, result} = update_a_user(id)
+    result
+  end
+
+  @doc """
+
+
+  ## Parameters
+    - id: Numeric `id` of the User to perform action with.
+  """
+  def remove_a_user(id) do
+    req_url = Path.join @base_url, "/users/?id=#{id |> URI.encode_www_form}"
+
+    HTTPotion.request(:delete, req_url, body: Poison.encode!(%{"id" => id}), headers: ["Content-Type": "application/json"])
+  end
+
+  def remove_a_user!(id) do
+    {:ok, result} = remove_a_user(id)
     result
   end
 

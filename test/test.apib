@@ -6,7 +6,7 @@ Sample api documentation for sample project.
 
 # Allowed HTTPs requests:
 <pre>
-PUT     : To create resource 
+PUT     : To create resource
 POST    : Update resource
 GET     : Get a resource or list of resources
 DELETE  : To delete resource
@@ -27,18 +27,18 @@ DELETE  : To delete resource
     First column sadf asdfads   |   sfsdsadf
 
 ---
-    test one                    | Another column    
+    test one                    | Another column
 ---
 
 # Table sample
 <table>
     <tr>
         <td> First Column </td>
-        <td> Second Column </td>    
+        <td> Second Column </td>
     </tr>
     <tr>
         <td> First Column </td>
-        <td> Second Column </td> 
+        <td> Second Column </td>
     </tr>
 </table>
 
@@ -49,18 +49,18 @@ DELETE  : To delete resource
 </pre>
 
 # Group User
-Represents user details. 
+Represents user details.
 
 ---
 **User attributes:**
 
-- id `(Number)` : unique identifier. 
+- id `(Number)` : unique identifier.
 - fname `(String)` : First Name.
 - lname `(String)` : Last Name.
 - email `(String)` : email id of the user.
 
 ---
-## User Collection [/users(?since,limit)]
+## User Collection [/users{?since,limit}]
 ### List all users [GET]
 Retrieve paginated list of users.
 
@@ -130,7 +130,7 @@ A single User object with all its details
                 "lname": "Patil",
                 "email": "pandurang@email.com"
             }
-            
+
 + Response 401 (application/json)
 
         {

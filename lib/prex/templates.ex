@@ -26,6 +26,7 @@ defmodule Prex.Templates do
       true ->
         normalize_module_name(api_name) <> "." <> normalize_module_name(group_name)
     end
+
     """
     # Created by Prex
     defmodule #{module_name} do
@@ -82,9 +83,9 @@ defmodule Prex.Templates do
     {:ok, striped_url, opt_params} = process_url url
     extra_url =
       case opt_params do
-        nil ->
+        [] ->
           ""
-        "" ->
+        nil ->
           ""
         opts ->
           " <>\n     #{Enum.join(opts, " <> \"&\" <> \n     ")}"
@@ -97,14 +98,9 @@ defmodule Prex.Templates do
       #{param_docs}
       \"\"\"
       def #{action_name}(#{action_params}) do
-<<<<<<< HEAD
         req_url = Path.join @base_url, \"#{striped_url}\"#{extra_url}
-        
+
         HTTPotion.request(#{req_method}, req_url, body: Poison.encode!(%{#{body}}), headers: ["Content-Type": "application/json"])
-=======
-        req_url = Path.join @base_url, \"#{url}\"
-        HTTPotion.request(#{req_method}, req_url, [body: Poison.encode!(%{#{body}}), headers: ["Content-Type": "application/json"]])
->>>>>>> d7a5a2c9f3a5f18d08857dadfa450c94d5be0aa8
       end
 
       def #{action_name}!(#{action_params}) do
