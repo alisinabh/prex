@@ -97,9 +97,14 @@ defmodule Prex.Templates do
       #{param_docs}
       \"\"\"
       def #{action_name}(#{action_params}) do
+<<<<<<< HEAD
         req_url = Path.join @base_url, \"#{striped_url}\"#{extra_url}
         
         HTTPotion.request(#{req_method}, req_url, body: Poison.encode!(%{#{body}}), headers: ["Content-Type": "application/json"])
+=======
+        req_url = Path.join @base_url, \"#{url}\"
+        HTTPotion.request(#{req_method}, req_url, [body: Poison.encode!(%{#{body}}), headers: ["Content-Type": "application/json"]])
+>>>>>>> d7a5a2c9f3a5f18d08857dadfa450c94d5be0aa8
       end
 
       def #{action_name}!(#{action_params}) do
