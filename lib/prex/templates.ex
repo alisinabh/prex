@@ -45,7 +45,7 @@ defmodule Prex.Templates do
       \"\"\"
       def #{action_name} do
         req_url = Path.join @base_url, \"#{url}\"
-        HTTPoison.request(#{req_method}, req_url)
+        HTTPotion.request(#{req_method}, req_url)
       end
 
       def #{action_name}! do
@@ -80,7 +80,7 @@ defmodule Prex.Templates do
       \"\"\"
       def #{action_name}(#{action_params}) do
         req_url = Path.join @base_url, \"#{url}\"
-        HTTPoison.request(#{req_method}, req_url, body: Poison.encode!(%{#{body}}), headers: ["Content-Type": "application/json"])
+        HTTPotion.request(#{req_method}, req_url, [body: Poison.encode!(%{#{body}}), headers: ["Content-Type": "application/json"]])
       end
 
       def #{action_name}!(#{action_params}) do

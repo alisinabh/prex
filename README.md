@@ -65,7 +65,7 @@ defmodule MyApi.User do
   """
   def list_all_users(since \\ nil, limit \\ nil) do
     req_url = Path.join @base_url, "/users(?since,limit)"
-    HTTPoison.request(:get, req_url, body: Poison.encode!(%{ "since" => since, "limit" => limit}), headers: ["Content-Type": "application/json"])
+    HTTPotion.request(:get, req_url, body: Poison.encode!(%{ "since" => since, "limit" => limit}), headers: ["Content-Type": "application/json"])
   end
 
   def list_all_users!(since \\ nil, limit \\ nil) do
@@ -78,7 +78,7 @@ defmodule MyApi.User do
   """
   def create_a_user do
     req_url = Path.join @base_url, "/users(?since,limit)"
-    HTTPoison.request(:put, req_url)
+    HTTPotion.request(:put, req_url)
   end
 
   def create_a_user! do
