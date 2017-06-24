@@ -5,6 +5,8 @@ defmodule Prex.Templates do
 
   import Prex.NameHelpers
 
+  @url_regex ~r/{([A-Za-z0-9\\?,]+)}/
+
   @doc """
   Creates an elixir module code for an API group
 
@@ -17,7 +19,13 @@ defmodule Prex.Templates do
   """
   @spec get_module(String.t, String.t, String.t, String.t, Enum.t) :: String.t
   def get_module(api_name, group_name, base_url, docs, actions) do
-    module_name = normalize_module_name(api_name) <> "." <> normalize_module_name(group_name)
+    module_name = cond do
+      group_name == nil or group_name == "" ->
+        IO.puts "warning: there is an unnamed resource group. using base module name..."
+        normalize_module_name(api_name)
+      true ->
+        normalize_module_name(api_name) <> "." <> normalize_module_name(group_name)
+    end
     """
     # Created by Prex
     defmodule #{module_name} do
@@ -45,7 +53,7 @@ defmodule Prex.Templates do
       \"\"\"
       def #{action_name} do
         req_url = Path.join @base_url, \"#{url}\"
-        HTTPoison.request(#{req_method}, req_url)
+        HTTPotion.request(#{req_method}, req_url)
       end
 
       def #{action_name}! do
@@ -71,6 +79,16 @@ defmodule Prex.Templates do
     action_name = normalize_func_name(name)
     req_method = normalize_http_method method
     {:ok, action_params, recall_params, body, param_docs} = get_action_params(params, "", "", "", "")
+    {:ok, striped_url, opt_params} = process_url url
+    extra_url =
+      case opt_params do
+        nil ->
+          ""
+        "" ->
+          ""
+        opts ->
+          " <>\n     #{Enum.join(opts, " <> \"&\" <> \n     ")}"
+      end
     """
       @doc \"\"\"
       #{docs}
@@ -79,8 +97,9 @@ defmodule Prex.Templates do
       #{param_docs}
       \"\"\"
       def #{action_name}(#{action_params}) do
-        req_url = Path.join @base_url, \"#{url}\"
-        HTTPoison.request(#{req_method}, req_url, body: Poison.encode!(%{#{body}}), headers: ["Content-Type": "application/json"])
+        req_url = Path.join @base_url, \"#{striped_url}\"#{extra_url}
+        
+        HTTPotion.request(#{req_method}, req_url, body: Poison.encode!(%{#{body}}), headers: ["Content-Type": "application/json"])
       end
 
       def #{action_name}!(#{action_params}) do
@@ -102,6 +121,8 @@ defmodule Prex.Templates do
       case {required, default} do
       {true, nil} ->
         new_param_acc
+      {true, ""} ->
+        new_param_acc
       {true, default_val} ->
         new_param_acc <> " \\\\ \"#{default_val}\""
       {false, nil} ->
@@ -111,6 +132,8 @@ defmodule Prex.Templates do
       {false, default_val} ->
         new_param_acc <> " \\\\ \"#{default_val}\""
     end
+
+    IO.puts inspect {required, default}
 
     new_param_acc = new_param_acc <> ","
 
@@ -130,5 +153,47 @@ defmodule Prex.Templates do
     doc =  "  " <> (doc_acc |> String.slice(1, String.length(doc_acc)) |> String.replace("\n", "\n    "))
     {:ok, param, recall, body, doc}
   end
+
+  defp process_url(url) do
+    case Regex.run @url_regex, url do
+      [_, url_params] ->
+        params = String.split url_params, ","
+        flat_url = Regex.replace(@url_regex, url, "")
+        {:ok, req_params, opt_params} =
+          do_process_url(params, [], [])
+
+        IO.puts inspect opt_params
+
+        case req_params do
+          [] ->
+            {:ok, flat_url, opt_params}
+          [_a | _b] ->
+            IO.puts inspect req_params
+            query = Enum.join(req_params, "&")
+            {:ok, "#{flat_url}?#{query}", opt_params}
+        end
+      _ ->
+        {:ok, url, []}
+    end
+
+  end
+
+
+  defp do_process_url([], params, optional_params), do: {:ok, params, optional_params}
+  defp do_process_url([param | tail], params, optional_params) do
+    if String.starts_with?(param, "?") do
+      name = String.slice(param, 1, String.length(param)-1)
+      do_process_url(tail,
+       params,
+       ["(if #{name} != nil, do: \"#{urlify_param(name)}\", else: \"\")" | optional_params])
+    else
+      do_process_url(tail,
+      # url <> "#{param}=\#{#{param}}&",
+       [urlify_param(param) | params],
+       optional_params)
+    end
+  end
+
+  defp urlify_param(param), do: "#{param}=\#{#{param} |> URI.encode_www_form}"
 
 end

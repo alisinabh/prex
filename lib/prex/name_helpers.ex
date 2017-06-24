@@ -29,7 +29,7 @@ defmodule Prex.NameHelpers do
   end
 
   @doc """
-  Converts an http method name to equivalant atom for HTTPoison to use
+  Converts an http method name to equivalant atom for HTTPotion to use
 
   ## Examples
       iex> Prex.NameHelpers.normalize_http_method "GET"

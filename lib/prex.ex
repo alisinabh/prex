@@ -13,8 +13,15 @@ defmodule Prex do
     %{"name" => group_name, "description" => group_description, "resources" => resources} = group
     actions_code = do_generate_module(resources, "")
 
+    file_name = cond do
+      group_name == nil or group_name == "" ->
+        api_name
+      true ->
+        group_name
+    end
+
     {:ok,
-     "lib/#{normalize_var_name(api_name)}/#{normalize_var_name(group_name)}.ex", # TODO fix folders
+     "lib/#{normalize_var_name(api_name)}/#{normalize_var_name(file_name)}.ex",
      Prex.Templates.get_module(api_name, group_name, base_url, group_description, actions_code)}
   end
 
@@ -34,5 +41,5 @@ defmodule Prex do
   end
 
   defp get_actions(_uri, _global_params, [], acc), do: acc
-  
+
 end
